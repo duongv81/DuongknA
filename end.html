@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <title>Lời Tạm Biệt 💜</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Great+Vibes&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      margin: 0;
+      padding: 40px;
+      min-height: 100vh;
+      background: url('picture/nen2.jpg') center/cover no-repeat;      background-size: 100% 100%;
+      animation: slowGradient 20s ease infinite;
+      color: #083242;
+      font-family: 'Poppins', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      box-sizing: border-box;
+      transition: background 1s ease;
+    }
+
+    @keyframes slowGradient {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* Khi đổi nền sang ảnh */
+    body.bg-image {
+      background: url('picture/nen2.jpg') center/cover no-repeat;
+      animation: none; /* tắt gradient */
+    }
+
+    #content {
+      max-width: 900px;
+      background: rgba(249, 251, 252, 0.7));
+      padding: 30px 40px;
+      border-radius: 16px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.6);
+      font-size: 1.15rem;
+      line-height: 1.7;
+      color: #ddd;
+      margin-bottom: 30px;
+      min-height: 420px;
+      white-space: pre-wrap;
+      position: relative;
+      z-index: 1;
+      transition: background 1s ease, color 1s ease;
+    }
+
+    /* Khi đổi khung text sang trắng nhẹ */
+    #content.bg-white {
+      background: rgba(241, 242, 243, 0.959);
+      color: #0a0101;
+    }
+
+    h1 { 
+      font-family: 'Great Vibes', cursive;
+      font-size: 2.5em;
+      margin-bottom: 25px;
+      color: #08364b;
+      text-align: center;
+      font-weight: 700;
+      text-shadow: 0 0 10px rgba(9, 55, 77, 0.7);
+    }
+
+    #playButton {
+      padding: 12px 35px;
+      font-size: 1.1em;
+      font-weight: 700;
+      border: none;
+      border-radius: 50px;
+      background: linear-gradient(135deg, #2563eb, #3b82f6);
+      color: white;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-bottom: 25px;
+      box-shadow: 0 0 15px rgba(59, 130, 246, 0.6);
+    }
+    #playButton:hover {
+      background: linear-gradient(135deg, #1d4ed8, #2563eb);
+      transform: scale(1.05);
+    }
+
+    .heart {
+      position: absolute;
+      animation: floatUpWave 8s ease-in-out infinite;
+      user-select: none;
+      cursor: pointer;
+      color: #e879f9;
+      font-size: 20px;
+      will-change: transform;
+      z-index: 999;
+      text-shadow: 0 0 6px rgba(232,121,249,0.6);
+    }
+
+    @keyframes floatUpWave {
+      0% { transform: translateY(100vh) translateX(0) scale(1); opacity: 1; }
+      100% { transform: translateY(-10vh) translateX(0) scale(1.2); opacity: 0; }
+    }
+
+    #closing {
+      font-family: 'Great Vibes', cursive;
+      font-size: 2em;
+      color: #93c5fd;
+      margin-top: 30px;
+      text-align: center;
+      opacity: 0;
+      transition: opacity 1.5s ease-in-out;
+      text-shadow: 0 0 8px rgba(147, 197, 253, 0.6);
+    }
+
+    #logo {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 111px;
+      opacity: 1S;
+      pointer-events: none;
+      user-select: none;
+      filter: drop-shadow(0 0 3px rgba(0,0,0,0.5));
+      z-index: 1000;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Tạm biệt và hẹn gặp lại ❤️</h1>
+
+  <button id="playButton">🎵 Phát nhạc</button>
+
+  <div id="content"></div>
+
+
+
+  <audio id="myAudio" loop>
+    <source src="amthanh/nhac.mp3" type="audio/mpeg" />
+    Trình duyệt của bạn không hỗ trợ phát nhạc.
+  </audio>
+
+  <img src="picture/anh.webp" id="logo" alt="Logo">
+
+  <script>
+    const icons = ['❤️','💖','💜','💕','💗','💞','💘'];
+
+    function createHeart() {
+      const icon = icons[Math.floor(Math.random() * icons.length)];
+      const heart = document.createElement('div');
+      heart.classList.add('heart');
+      heart.innerText = icon;
+      heart.style.left = Math.random() * 100 + 'vw';
+      heart.style.fontSize = (18 + Math.random() * 12) + 'px';
+      heart.style.animationDuration = (6 + Math.random() * 4) + 's';
+
+      heart.addEventListener('click', () => {
+        heart.innerText = icons[Math.floor(Math.random() * icons.length)];
+      });
+
+      document.body.appendChild(heart);
+      setTimeout(() => heart.remove(), 12000);
+    }
+
+    setInterval(createHeart, 1200);
+
+    const fullText = `Kính gửi toàn thể anh chị em đồng nghiệp thân mến,
+
+Thật khó để nói lời tạm biệt sau quãng thời gian gắn bó và làm việc cùng nhau. Tôi muốn gửi lời cảm ơn sâu sắc đến từng người trong số các bạn – những người đã đồng hành, hỗ trợ và giúp đỡ tôi không chỉ trong công việc mà còn trong cuộc sống hàng ngày.
+
+Quãng thời gian làm việc tại đây đã để lại trong tôi rất nhiều kỷ niệm đẹp, những bài học quý giá và cả những trải nghiệm đáng nhớ. Tôi rất trân trọng môi trường làm việc chuyên nghiệp, thân thiện, cũng như tinh thần đoàn kết và sự sẻ chia mà mọi người đã tạo nên.
+
+Dù có những lúc gặp khó khăn, thử thách, nhưng với sự giúp đỡ của các bạn, tôi luôn cảm thấy mình không đơn độc và có thêm động lực để cố gắng hơn. Tôi tin rằng những điều chúng ta đã cùng nhau xây dựng sẽ mãi là nền tảng vững chắc để các bạn tiếp tục phát triển và gặt hái nhiều thành công.
+
+Giờ đây, khi bước sang một chặng đường mới, tôi sẽ mang theo tất cả những ký ức đẹp, tình cảm chân thành và những bài học quý giá mà nơi đây đã trao cho tôi. Mong rằng dù có đi đâu, chúng ta vẫn sẽ giữ được mối liên hệ tốt đẹp này và luôn nhớ về nhau với sự trân trọng.
+
+Chúc công ty ngày càng phát triển, thành công rực rỡ! Chúc anh chị em đồng nghiệp thật nhiều sức khỏe, niềm vui và thành công trong cuộc sống cũng như công việc.
+
+Một lần nữa, xin gửi lời cảm ơn và lời chào tạm biệt chân thành nhất!
+
+Thân ái và quyết thắng!
+
+[Họ tên của bạn]`;
+
+    const contentEl = document.getElementById("content");
+    let index = 0;
+
+    function typeWriter() {
+      if (index < fullText.length) {
+        let char = fullText[index];
+        if (char === '\n') {
+          contentEl.innerHTML += "<br>";
+        } else {
+          contentEl.innerHTML += char;
+        }
+        index++;
+
+        let delay = 30;
+        if (char === '.' || char === ',' || char === '!' || char === '?') delay = 400;
+        if (char === '\n') delay = 600;
+
+        setTimeout(typeWriter, delay);
+      }
+    }
+
+    function fadeIn(audio) {
+      let volume = 0;
+      const interval = setInterval(() => {
+        if (volume < 0.5) {
+          volume += 0.01;
+          audio.volume = volume;
+        } else {
+          clearInterval(interval);
+        }
+      }, 150);
+    }
+
+    // Thêm chức năng thay đổi nền và text khi nhấn play
+    document.getElementById('playButton').addEventListener('click', () => {
+      const btn = document.getElementById("playButton");
+      const audio = document.getElementById("myAudio");
+
+      // đổi nền và khung text
+      document.body.classList.add('bg-image');
+      contentEl.classList.add('bg-white');
+
+      // phát nhạc
+      audio.volume = 0;
+      audio.play().then(() => {
+        fadeIn(audio);
+        btn.style.opacity = '0';
+        setTimeout(() => btn.style.display = 'none', 500);
+      }).catch((e) => console.log("Không thể phát nhạc tự động."));
+
+      // gõ chữ
+      typeWriter();
+      setTimeout(() => document.getElementById('closing').style.opacity = 1, fullText.length * 30 + 5000);
+    });
+  </script>
+</body>
+</html>
