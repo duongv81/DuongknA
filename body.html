@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Ảnh Morph với câu hỏi và âm thanh</title>
+<style>
+  body {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    overflow: hidden;
+    background: #000;
+    transition: opacity 1s ease;
+    cursor: pointer;
+  }
+  body.fade-out { opacity: 0; }
+
+  /* Container ảnh */
+  .container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+
+  .background { position:absolute; width:100%; height:100%; object-fit:cover; z-index:1; }
+  .center-img { position:absolute; width:750px; top:50%; left:-800px; transform:translateY(-50%); opacity:0; z-index:2; cursor:pointer; animation: moveCenter 3s ease forwards; }
+  .bottom-left-img { position:absolute; width:1300px; bottom:-200px; left:-300px; opacity:0; z-index:2; animation: moveBottomLeft 2s ease 1s forwards; }
+  .top-center-img { position:absolute; width:50px; left:50%; top:60%; transform:translateX(-50%); opacity:0; z-index:6; animation: moveTopCenter 2s ease 1.5s forwards; }
+
+  @keyframes moveCenter { to { left:50%; transform:translate(-50%, -50%); opacity:1; } }
+  @keyframes moveBottomLeft { to { left:-690px; bottom:-200px; opacity:1; } }
+  @keyframes moveTopCenter { to { top:27%; opacity:1; } }
+
+  /* Overlay câu hỏi */
+  #questionOverlay {
+    position: fixed;
+    top:0; left:0;
+    width:100%; height:100%;
+    background: rgba(0,0,0,0.7);
+    z-index: 10000;
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color:#fff;
+    font-family:'Poppins', sans-serif;
+    font-size:1.5rem;
+    text-align:center;
+  }
+
+  #questionOverlay button {
+    padding: 12px 25px;
+    margin: 15px;
+    font-size:1rem;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+    font-weight:700;
+    transition: all 0.3s ease;
+  }
+
+  #agreeBtn { 
+    background-color:#4ade80; 
+    color:#000; 
+  }
+  #agreeBtn:hover {
+    background-color:#3b82f6; /* xanh dương khi hover */
+    color:#fff;
+  }
+
+  #disagreeBtn { 
+    background-color:#f87171; 
+    color:#000; 
+    position:absolute; 
+  }
+
+</style>
+</head>
+<body>
+  <!-- Overlay câu hỏi -->
+  <div id="questionOverlay">
+    <p>Dương có gửi tại đây một bức thư nhỏ, anh/chị/các bạn có muốn xem qua không ? </p>
+    <div>
+      <button id="agreeBtn">Đồng Ý</button>
+      <button id="disagreeBtn">Không nhaaa ^^</button>
+    </div>
+  </div>
+
+  <div class="container">
+    <img src="picture/nengiayne.jpg" class="background">
+    <img src="picture/lathu.png" class="center-img" id="center-img">
+    <img src="picture/decor.png" class="bottom-left-img">
+    <img src="picture/muiten.png" class="top-center-img">
+  </div>
+
+  <!-- Âm thanh -->
+  <audio id="centerSound"><source src="amthanh/click2.wav" type="audio/mpeg"></audio>
+  <audio id="anyClickSound"><source src="amthanh/click.wav" type="audio/mpeg"></audio>
+
+  <script>
+    const centerImg = document.getElementById("center-img");
+    const centerAudio = document.getElementById("centerSound");
+    const anyAudio = document.getElementById("anyClickSound");
+
+    // Click ảnh giữa → fade out + chuyển trang + âm thanh
+    centerImg.addEventListener("click", function(e){
+      e.stopPropagation();
+      centerAudio.currentTime = 0.8;
+      centerAudio.play();
+      document.body.classList.add("fade-out");
+      setTimeout(()=>{ window.location.href="index2.html"; },1000);
+    });
+
+    // Click body → âm thanh khác
+    document.body.addEventListener("click", function(e){
+      if(e.target!==centerImg){ 
+        anyAudio.currentTime=0; 
+        anyAudio.play(); 
+      }
+    });
+
+    // --- Câu hỏi ---
+    const overlay = document.getElementById("questionOverlay");
+    const agreeBtn = document.getElementById("agreeBtn");
+    const disagreeBtn = document.getElementById("disagreeBtn");
+
+    // Khi chọn Đồng Ý → ẩn overlay
+    agreeBtn.addEventListener("click", ()=>{
+      overlay.style.display="none";
+    });
+
+    // Khi chọn Không nhaa → nút nhảy
+    disagreeBtn.addEventListener("mouseenter", ()=>{
+      const maxX = window.innerWidth - disagreeBtn.offsetWidth;
+      const maxY = window.innerHeight - disagreeBtn.offsetHeight;
+      const randX = Math.floor(Math.random()*maxX);
+      const randY = Math.floor(Math.random()*maxY);
+      disagreeBtn.style.left=randX+'px';
+      disagreeBtn.style.top=randY+'px';
+    });
+  </script>
+</body>
+</html>
