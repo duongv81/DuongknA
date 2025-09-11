@@ -2,7 +2,6 @@
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
-<title>Ảnh Morph với câu hỏi và âm thanh</title>
 <style>
   body {
     margin: 0;
@@ -77,7 +76,6 @@
 </style>
 </head>
 <body>
-  <!-- Overlay câu hỏi -->
   <div id="questionOverlay">
     <p>Dương có gửi tại đây một bức thư nhỏ, anh/chị/các bạn có muốn xem qua không ? </p>
     <div>
@@ -92,8 +90,6 @@
     <img src="picture/decor.png" class="bottom-left-img">
     <img src="picture/muiten.png" class="top-center-img">
   </div>
-
-  <!-- Âm thanh -->
   <audio id="centerSound"><source src="amthanh/click2.wav" type="audio/mpeg"></audio>
   <audio id="anyClickSound"><source src="amthanh/click.wav" type="audio/mpeg"></audio>
 
@@ -101,8 +97,6 @@
     const centerImg = document.getElementById("center-img");
     const centerAudio = document.getElementById("centerSound");
     const anyAudio = document.getElementById("anyClickSound");
-
-    // Click ảnh giữa → fade out + chuyển trang + âm thanh
     centerImg.addEventListener("click", function(e){
       e.stopPropagation();
       centerAudio.currentTime = 0.8;
@@ -110,26 +104,22 @@
       document.body.classList.add("fade-out");
       setTimeout(()=>{ window.location.href="index2.html"; },1000);
     });
-
-    // Click body → âm thanh khác
     document.body.addEventListener("click", function(e){
       if(e.target!==centerImg){ 
         anyAudio.currentTime=0; 
         anyAudio.play(); 
       }
     });
-
-    // --- Câu hỏi ---
     const overlay = document.getElementById("questionOverlay");
     const agreeBtn = document.getElementById("agreeBtn");
     const disagreeBtn = document.getElementById("disagreeBtn");
 
-    // Khi chọn Đồng Ý → ẩn overlay
+ 
     agreeBtn.addEventListener("click", ()=>{
       overlay.style.display="none";
     });
 
-    // Khi chọn Không nhaa → nút nhảy
+
     disagreeBtn.addEventListener("mouseenter", ()=>{
       const maxX = window.innerWidth - disagreeBtn.offsetWidth;
       const maxY = window.innerHeight - disagreeBtn.offsetHeight;
@@ -141,3 +131,4 @@
   </script>
 </body>
 </html>
+
