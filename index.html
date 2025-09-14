@@ -2,13 +2,13 @@
 <html lang="vi">
 <head>
   <meta charset="UTF-8">
-  <title>Demo Preloader Gray</title>
+  <title>Lời Tạm Biệt 💜</title>
   <style>
- 
+    /* Preloader */
     #preloader {
       position: fixed;
       top: 0; left: 0; right: 0; bottom: 0;
-      background-color: #808080; 
+      background-color: #808080; /* nền xám */
       z-index: 9999999;
     }
 
@@ -41,9 +41,9 @@
       20% { transform: scaleY(1.0); }
     }
 
-
+    /* Nội dung trang */
     .content {
-      display: none;
+      display: none; /* Ẩn khi đang loading */
       text-align: center;
       margin-top: 100px;
     }
@@ -51,7 +51,7 @@
 </head>
 <body>
 
-
+  <!-- Preloader -->
   <div id="preloader">
     <div class="spinner">
       <div class="rect1"></div>
@@ -62,17 +62,17 @@
     </div>
   </div>
 
-
+  <!-- Nội dung chính (nếu muốn hiển thị ngay, không bắt buộc) -->
   <div class="content">
     <h1>Trang đang tải...</h1>
   </div>
 
   <script>
-
+    // Sau 2 giây, ẩn preloader và chuyển sang trang chính
     window.addEventListener("load", function() {
       setTimeout(() => {
         document.getElementById("preloader").style.display = "none";
- )
+        // Chuyển sang trang main.html (trang ảnh morph + câu hỏi)
         window.location.href = "body.html";
       }, 2000);
     });
@@ -80,5 +80,3 @@
 
 </body>
 </html>
-
-
