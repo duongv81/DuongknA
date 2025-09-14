@@ -9,7 +9,8 @@
       margin: 0;
       padding: 40px;
       min-height: 100vh;
-      background: url('picture/nengiayne.jpg') center/cover no-repeat;      background-size: 100% 100%;
+      background: url('picture/nengiayne.jpg') center/cover no-repeat;
+      background-size: 100% 100%;
       animation: slowGradient 20s ease infinite;
       color: #083242;
       font-family: 'Poppins', sans-serif;
@@ -26,15 +27,14 @@
       100% { background-position: 0% 50%; }
     }
 
-    /* Khi đổi nền sang ảnh */
     body.bg-image {
       background: url('picture/nen3.png') center/cover no-repeat;
-      animation: none; /* tắt gradient */
+      animation: none;
     }
 
     #content {
       max-width: 900px;
-      background: rgba(249, 251, 252, 0.7));
+      background: rgba(249, 251, 252, 0.7);
       padding: 30px 40px;
       border-radius: 16px;
       box-shadow: 0 4px 20px rgba(0,0,0,0.6);
@@ -49,7 +49,6 @@
       transition: background 1s ease, color 1s ease;
     }
 
-    /* Khi đổi khung text sang trắng nhẹ */
     #content.bg-white {
       background: rgba(241, 242, 243, 0.959);
       color: #0a0101;
@@ -84,20 +83,35 @@
     }
 
     .heart {
-      position: absolute;
-      animation: floatUpWave 8s ease-in-out infinite;
-      user-select: none;
-      cursor: pointer;
-      color: #e879f9;
-      font-size: 20px;
-      will-change: transform;
-      z-index: 999;
-      text-shadow: 0 0 6px rgba(232,121,249,0.6);
-    }
+  position: absolute;
+  bottom: 0;              /* bắt đầu từ đáy màn hình */
+  left: 50%;              /* sẽ bị override bằng JS random */
+  animation: floatUpWave 8s ease-in-out forwards;
+  user-select: none;
+  pointer-events: none;
+  color: #e879f9;
+  font-size: 20px;
+  will-change: transform;
+  z-index: 999;
+  text-shadow: 0 0 6px rgba(232,121,249,0.6);
+}
 
-    @keyframes floatUpWave {
-      0% { transform: translateY(100vh) translateX(0) scale(1); opacity: 1; }
-      100% { transform: translateY(-10vh) translateX(0) scale(1.2); opacity: 0; }
+@keyframes floatUpWave {
+  0%   { transform: translateY(0) scale(1); opacity: 1; }
+  100% { transform: translateY(-100vh) scale(0.8); opacity: 0; }
+}
+
+    /* Hiệu ứng nổ tim */
+    .explosion {
+      position: absolute;
+      font-size: 16px;
+      opacity: 1;
+      pointer-events: none;
+      animation: explode 1s ease-out forwards;
+    }
+    @keyframes explode {
+      0%   { transform: scale(0.5) translate(0,0); opacity: 1; }
+      100% { transform: scale(1.5) translate(var(--x), var(--y)); opacity: 0; }
     }
 
     #closing {
@@ -116,7 +130,6 @@
       bottom: 20px;
       right: 20px;
       width: 111px;
-      opacity: 1S;
       pointer-events: none;
       user-select: none;
       filter: drop-shadow(0 0 3px rgba(0,0,0,0.5));
@@ -127,23 +140,22 @@
 <body>
 
   <h1>Tạm biệt và hẹn gặp lại ❤️</h1>
-
   <button id="playButton">🎵 Phát nhạc</button>
-
   <div id="content"></div>
-
-
 
   <audio id="myAudio" loop>
     <source src="amthanh/nhac.mp3" type="audio/mpeg" />
     Trình duyệt của bạn không hỗ trợ phát nhạc.
   </audio>
+  <audio id="popSound" src="amthanh/pop.mp3"></audio>
 
   <img src="picture/anh.webp" id="logo" alt="Logo">
 
   <script>
     const icons = ['❤️','💖','💜','💕','💗','💞','💘'];
+    const popSound = document.getElementById("popSound");
 
+    // Tim bay tự động
     function createHeart() {
       const icon = icons[Math.floor(Math.random() * icons.length)];
       const heart = document.createElement('div');
@@ -152,17 +164,55 @@
       heart.style.left = Math.random() * 100 + 'vw';
       heart.style.fontSize = (18 + Math.random() * 12) + 'px';
       heart.style.animationDuration = (6 + Math.random() * 4) + 's';
-
-      heart.addEventListener('click', () => {
-        heart.innerText = icons[Math.floor(Math.random() * icons.length)];
-      });
-
       document.body.appendChild(heart);
-      setTimeout(() => heart.remove(), 12000);
+      setTimeout(() => heart.remove(), 8000);
     }
-
     setInterval(createHeart, 1200);
 
+    // Click → tim bay rồi nổ
+    document.body.addEventListener("click", (e) => {
+      const icon = icons[Math.floor(Math.random() * icons.length)];
+      const heart = document.createElement("div");
+      heart.classList.add("heart");
+      heart.innerText = icon;
+      heart.style.left = e.clientX + "px";
+      heart.style.top = e.clientY + "px";
+      heart.style.fontSize = (20 + Math.random() * 15) + "px";
+      heart.style.animationDuration = "0.6s";
+
+      document.body.appendChild(heart);
+
+      // Sau 0.6s: nổ tim
+      setTimeout(() => {
+        heart.remove();
+        createExplosion(e.clientX, e.clientY);
+      }, 600);
+    });
+
+    function createExplosion(x, y) {
+      // phát âm thanh nổ
+      popSound.currentTime = 0;
+      popSound.play();
+
+      for (let i = 0; i < 12; i++) {
+        const icon = icons[Math.floor(Math.random() * icons.length)];
+        const piece = document.createElement("div");
+        piece.classList.add("explosion");
+        piece.innerText = icon;
+        piece.style.left = x + "px";
+        piece.style.top = y + "px";
+
+        const angle = (i / 12) * (2 * Math.PI);
+        const distance = 120 + Math.random() * 50;
+        piece.style.setProperty("--x", Math.cos(angle) * distance + "px");
+        piece.style.setProperty("--y", Math.sin(angle) * distance + "px");
+
+        document.body.appendChild(piece);
+        setTimeout(() => piece.remove(), 1000);
+      }
+    }
+
+    // Nội dung gõ chữ
     const fullText = `Kính gửi toàn thể anh chị điều hành cùng các anh chị HDV,
 
 Em là Nguyễn Tùng Dương, HDV Block 3. Hôm nay là ngày cuối cùng em làm việc tại KizCiti. Biết đến và được làm việc tại KizCiti là một may mắn lớn đối với em. Đây cũng là một trong những công việc đầu tiên em đảm nhận khi vừa đặt chân đến Hà Nội.
@@ -185,15 +235,11 @@ Nguyễn Tùng Dương – P056`;
     function typeWriter() {
       if (index < fullText.length) {
         let char = fullText[index];
-        if (char === '\n') {
-          contentEl.innerHTML += "<br>";
-        } else {
-          contentEl.innerHTML += char;
-        }
+        contentEl.innerHTML += (char === '\n') ? "<br>" : char;
         index++;
 
         let delay = 30;
-        if (char === '.' || char === ',' || char === '!' || char === '?') delay = 400;
+        if (".,!?".includes(char)) delay = 400;
         if (char === '\n') delay = 600;
 
         setTimeout(typeWriter, delay);
@@ -212,26 +258,21 @@ Nguyễn Tùng Dương – P056`;
       }, 150);
     }
 
-    // Thêm chức năng thay đổi nền và text khi nhấn play
     document.getElementById('playButton').addEventListener('click', () => {
       const btn = document.getElementById("playButton");
       const audio = document.getElementById("myAudio");
 
-      // đổi nền và khung text
       document.body.classList.add('bg-image');
       contentEl.classList.add('bg-white');
 
-      // phát nhạc
       audio.volume = 0;
       audio.play().then(() => {
         fadeIn(audio);
         btn.style.opacity = '0';
         setTimeout(() => btn.style.display = 'none', 500);
-      }).catch((e) => console.log("Không thể phát nhạc tự động."));
+      });
 
-      // gõ chữ
       typeWriter();
-      setTimeout(() => document.getElementById('closing').style.opacity = 1, fullText.length * 30 + 5000);
     });
   </script>
 </body>
