@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+DOCTYPE html>
 <html lang="vi">
 <head>
   <meta charset="UTF-8" />
@@ -28,7 +28,7 @@
     }
 
     body.bg-image {
-      background: url('picture/nen3.png') center/cover no-repeat;
+      background: url('picture/nen1.jpg') center/cover no-repeat;
       animation: none;
     }
 
@@ -83,25 +83,23 @@
     }
 
     .heart {
-  position: absolute;
-  bottom: 0;              /* bắt đầu từ đáy màn hình */
-  left: 50%;              /* sẽ bị override bằng JS random */
-  animation: floatUpWave 8s ease-in-out forwards;
-  user-select: none;
-  pointer-events: none;
-  color: #e879f9;
-  font-size: 20px;
-  will-change: transform;
-  z-index: 999;
-  text-shadow: 0 0 6px rgba(232,121,249,0.6);
-}
+      position: absolute;
+      bottom: 0;
+      animation: floatUpWave 8s ease-in-out forwards;
+      user-select: none;
+      pointer-events: none;
+      color: #e879f9;
+      font-size: 20px;
+      will-change: transform;
+      z-index: 999;
+      text-shadow: 0 0 6px rgba(232,121,249,0.6);
+    }
 
-@keyframes floatUpWave {
-  0%   { transform: translateY(0) scale(1); opacity: 1; }
-  100% { transform: translateY(-100vh) scale(0.8); opacity: 0; }
-}
+    @keyframes floatUpWave {
+      0%   { transform: translateY(0) scale(1); opacity: 1; }
+      100% { transform: translateY(-100vh) scale(0.8); opacity: 0; }
+    }
 
-    /* Hiệu ứng nổ tim */
     .explosion {
       position: absolute;
       font-size: 16px;
@@ -114,17 +112,6 @@
       100% { transform: scale(1.5) translate(var(--x), var(--y)); opacity: 0; }
     }
 
-    #closing {
-      font-family: 'Great Vibes', cursive;
-      font-size: 2em;
-      color: #93c5fd;
-      margin-top: 30px;
-      text-align: center;
-      opacity: 0;
-      transition: opacity 1.5s ease-in-out;
-      text-shadow: 0 0 8px rgba(147, 197, 253, 0.6);
-    }
-
     #logo {
       position: fixed;
       bottom: 20px;
@@ -135,6 +122,30 @@
       filter: drop-shadow(0 0 3px rgba(0,0,0,0.5));
       z-index: 1000;
     }
+
+    /* Modal mật khẩu */
+    #passwordModal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.6);
+      z-index: 2000;
+      justify-content: center;
+      align-items: center;
+    }
+    #passwordModal .box {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      text-align: center;
+      max-width: 300px;
+    }
+    #passwordModal input {
+      width: 100%;
+      padding: 8px;
+      margin: 10px 0;
+    }
   </style>
 </head>
 <body>
@@ -143,34 +154,126 @@
   <button id="playButton">🎵 Phát nhạc</button>
   <div id="content"></div>
 
-  <audio id="myAudio" loop>
+  <!-- Nhạc chính -->
+  <audio id="audioMain" loop>
     <source src="amthanh/nhac.mp3" type="audio/mpeg" />
-    Trình duyệt của bạn không hỗ trợ phát nhạc.
   </audio>
+  <!-- Nhạc bí mật -->
+  <audio id="audioSecret" loop>
+    <source src="amthanh/nhac2.m4a" type="audio/mpeg" />
+  </audio>
+  <!-- Âm thanh pop -->
   <audio id="popSound" src="amthanh/pop.mp3"></audio>
 
   <img src="picture/anh.webp" id="logo" alt="Logo">
 
+  <!-- Modal mật khẩu -->
+  <div id="passwordModal">
+    <div class="box">
+      <h3>🌸 Mật mã bí mật</h3>
+      <input type="password" id="passwordInput" placeholder="Nhập mật mã">
+      <br>
+      <button onclick="checkPassword()">Xác nhận</button>
+      <button onclick="closeModal()">Hủy</button>
+      <p id="errorMessage" style="color:red; display:none;">❌ Sai mật mã!</p>
+      <p id="secretMessage" style="color:green; display:none;">💌 Nội dung bí mật:<br>"Xin cảm ơn, vì sự hiện diện của bạn đã làm mọi thứ trở nên dịu dàng hơn !"</p>
+    </div>
+  </div>
+
   <script>
     const icons = ['❤️','💖','💜','💕','💗','💞','💘'];
     const popSound = document.getElementById("popSound");
+    const audioMain = document.getElementById("audioMain");
+    const audioSecret = document.getElementById("audioSecret");
 
-    // Tim bay tự động
-    function createHeart() {
-      const icon = icons[Math.floor(Math.random() * icons.length)];
+    let specialHeartExists = false;
+    let lastSpecialTime = Date.now();
+    let lastSecretTime = Date.now();
+
+    function createHeart(forceSpecial = false, forceSecret = false) {
       const heart = document.createElement('div');
       heart.classList.add('heart');
-      heart.innerText = icon;
+
+      let isSpecial = false;
+      let isSecret = false;
+
+      if (forceSpecial) {
+        isSpecial = true;
+      } else if (forceSecret) {
+        isSecret = true;
+      } else if (Math.random() < 0.05) {
+        isSpecial = true;
+      } else if (Math.random() < 0.52) {
+        isSecret = true;
+      }
+
+      if (isSpecial) {
+        heart.innerText = "💛 Click";
+        heart.dataset.special = "true";
+        heart.style.color = "#FFD700";
+        heart.style.cursor = "pointer";
+        heart.style.pointerEvents = "auto";
+        specialHeartExists = true;
+        lastSpecialTime = Date.now();
+
+        heart.addEventListener("click", () => {
+          alert("🎉 Bạn đã tìm được trái tim may mắn 💛!\n🌟 Chúc bạn thật nhiều niềm vui và hạnh phúc!");
+          heart.remove();
+          specialHeartExists = false;
+          lastSpecialTime = Date.now();
+        });
+      } 
+      else if (isSecret) {
+        heart.innerText = "🌸";
+        heart.dataset.secret = "true";
+        heart.style.color = "#ff69b4";
+        heart.style.cursor = "pointer";
+        heart.style.pointerEvents = "auto";
+
+        heart.addEventListener("click", () => {
+          audioMain.pause();
+          audioSecret.currentTime = 0;
+          audioSecret.play();
+          openModal();
+          heart.remove();
+          lastSecretTime = Date.now();
+        });
+      } 
+      else {
+        heart.innerText = icons[Math.floor(Math.random() * icons.length)];
+      }
+
       heart.style.left = Math.random() * 100 + 'vw';
       heart.style.fontSize = (18 + Math.random() * 12) + 'px';
       heart.style.animationDuration = (6 + Math.random() * 4) + 's';
-      document.body.appendChild(heart);
-      setTimeout(() => heart.remove(), 8000);
-    }
-    setInterval(createHeart, 1200);
 
-    // Click → tim bay rồi nổ
+      document.body.appendChild(heart);
+      setTimeout(() => {
+        if (document.body.contains(heart)) {
+          heart.remove();
+          if (heart.dataset.special) specialHeartExists = false;
+        }
+      }, 8000);
+    }
+
+    setInterval(() => createHeart(), 1200);
+
+    setInterval(() => {
+      const now = Date.now();
+      if (!specialHeartExists && now - lastSpecialTime > 10000) {
+        createHeart(true, false);
+      }
+    }, 2000);
+
+    setInterval(() => {
+      const now = Date.now();
+      if (now - lastSecretTime > 20000) {
+        createHeart(false, true);
+      }
+    }, 3000);
+
     document.body.addEventListener("click", (e) => {
+      if (e.target.classList.contains("heart")) return;
       const icon = icons[Math.floor(Math.random() * icons.length)];
       const heart = document.createElement("div");
       heart.classList.add("heart");
@@ -182,7 +285,6 @@
 
       document.body.appendChild(heart);
 
-      // Sau 0.6s: nổ tim
       setTimeout(() => {
         heart.remove();
         createExplosion(e.clientX, e.clientY);
@@ -190,10 +292,8 @@
     });
 
     function createExplosion(x, y) {
-      // phát âm thanh nổ
       popSound.currentTime = 0;
       popSound.play();
-
       for (let i = 0; i < 12; i++) {
         const icon = icons[Math.floor(Math.random() * icons.length)];
         const piece = document.createElement("div");
@@ -201,16 +301,42 @@
         piece.innerText = icon;
         piece.style.left = x + "px";
         piece.style.top = y + "px";
-
         const angle = (i / 12) * (2 * Math.PI);
         const distance = 120 + Math.random() * 50;
         piece.style.setProperty("--x", Math.cos(angle) * distance + "px");
         piece.style.setProperty("--y", Math.sin(angle) * distance + "px");
-
         document.body.appendChild(piece);
         setTimeout(() => piece.remove(), 1000);
       }
     }
+
+    // Modal mật khẩu
+    function openModal() {
+      document.getElementById("passwordModal").style.display = "flex";
+    }
+    function closeModal() {
+      document.getElementById("passwordModal").style.display = "none";
+    }
+    function checkPassword() {
+  const pass = document.getElementById("passwordInput").value;
+  const errorMessage = document.getElementById("errorMessage");
+  const secretMessage = document.getElementById("secretMessage");
+
+  // Danh sách mật khẩu chính xác
+  const validPasswords = ["kizciti2025", "duong", "love", "parttime"];
+
+  if (validPasswords.includes(pass) || (pass && pass.toLowerCase().includes("n"))) {
+    secretMessage.style.display = "block";
+    errorMessage.style.display = "none";
+  } else {
+    errorMessage.style.display = "block";
+    secretMessage.style.display = "none";
+    audioSecret.pause();
+    audioMain.currentTime = 0;
+    audioMain.play();
+  }
+}
+
 
     // Nội dung gõ chữ
     const fullText = `Kính gửi toàn thể anh chị điều hành cùng các anh chị HDV,
@@ -223,25 +349,20 @@ Quãng thời gian làm việc tại đây chắc chắn là một trong những
 
 Giờ đây, khi bước sang một chặng đường mới, em sẽ mang theo tất cả những ký ức đẹp, tình cảm chân thành và những bài học quý báu mà KizCiti đã trao tặng. Mong rằng, dù có đi đâu, em và mọi người vẫn giữ được mối liên hệ tốt đẹp này và luôn nhớ về nhau với sự trân trọng.
 
-Em xin chúc KizCiti ngày càng phát triển đón thật nhiều đoàn và đón thật rực rỡ, anh chị điều hành cùng các bạn HDV nhiều sức khỏe, niềm vui và thành công trong công việc cũng như cuộc sống.
+Em xin chúc KizCiti ngày càng phát triển đón thật nhiều đoàn và đón thật rực rỡ, anh chị điều hành cùng các bạn HDV nhiều sức khỏe, niềm vui và thành công trong công việc cũng như cuộc sống. 
 
-Một lần nữa, em xin gửi lời cảm ơn và chào tạm biệt chân thành nhất!
-
-Nguyễn Tùng Dương – P056`;
+Một lần nữa, em xin gửi lời cảm ơn và chào tạm biệt chân thành nhất!`;
 
     const contentEl = document.getElementById("content");
     let index = 0;
-
     function typeWriter() {
       if (index < fullText.length) {
         let char = fullText[index];
         contentEl.innerHTML += (char === '\n') ? "<br>" : char;
         index++;
-
         let delay = 30;
         if (".,!?".includes(char)) delay = 400;
         if (char === '\n') delay = 600;
-
         setTimeout(typeWriter, delay);
       }
     }
@@ -252,26 +373,20 @@ Nguyễn Tùng Dương – P056`;
         if (volume < 0.5) {
           volume += 0.01;
           audio.volume = volume;
-        } else {
-          clearInterval(interval);
-        }
+        } else clearInterval(interval);
       }, 150);
     }
 
     document.getElementById('playButton').addEventListener('click', () => {
       const btn = document.getElementById("playButton");
-      const audio = document.getElementById("myAudio");
-
       document.body.classList.add('bg-image');
       contentEl.classList.add('bg-white');
-
-      audio.volume = 0;
-      audio.play().then(() => {
-        fadeIn(audio);
+      audioMain.volume = 0;
+      audioMain.play().then(() => {
+        fadeIn(audioMain);
         btn.style.opacity = '0';
         setTimeout(() => btn.style.display = 'none', 500);
       });
-
       typeWriter();
     });
   </script>
