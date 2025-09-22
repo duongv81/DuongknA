@@ -1,9 +1,11 @@
-DOCTYPE html>
+<!DOCTYPE html>
 <html lang="vi">
 <head>
   <meta charset="UTF-8" />
   <title>Lời Tạm Biệt 💜</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Great+Vibes&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
   <style>
     body {
       margin: 0;
@@ -28,7 +30,7 @@ DOCTYPE html>
     }
 
     body.bg-image {
-      background: url('picture/nen1.jpg') center/cover no-repeat;
+      background: url('picture/nen3.png') center/cover no-repeat;
       animation: none;
     }
 
@@ -182,10 +184,12 @@ DOCTYPE html>
 
   <script>
     const icons = ['❤️','💖','💜','💕','💗','💞','💘'];
+    const flowers = ['🌸','🌺','🌼','🌻','🌷','💐'];
     const popSound = document.getElementById("popSound");
     const audioMain = document.getElementById("audioMain");
     const audioSecret = document.getElementById("audioSecret");
-
+    
+    let useFlowers = false;
     let specialHeartExists = false;
     let lastSpecialTime = Date.now();
     let lastSecretTime = Date.now();
@@ -224,11 +228,12 @@ DOCTYPE html>
         });
       } 
       else if (isSecret) {
-        heart.innerText = "🌸";
+        heart.innerHTML = '<i class="fa-solid fa-envelope"></i>';
         heart.dataset.secret = "true";
-        heart.style.color = "#ff69b4";
         heart.style.cursor = "pointer";
         heart.style.pointerEvents = "auto";
+        heart.style.fontSize = "26px";
+        heart.style.color = "#2563eb";
 
         heart.addEventListener("click", () => {
           audioMain.pause();
@@ -238,9 +243,11 @@ DOCTYPE html>
           heart.remove();
           lastSecretTime = Date.now();
         });
-      } 
+      }
       else {
-        heart.innerText = icons[Math.floor(Math.random() * icons.length)];
+        heart.innerText = useFlowers 
+          ? flowers[Math.floor(Math.random() * flowers.length)] 
+          : icons[Math.floor(Math.random() * icons.length)];
       }
 
       heart.style.left = Math.random() * 100 + 'vw';
@@ -272,12 +279,14 @@ DOCTYPE html>
       }
     }, 3000);
 
+    // Click ngẫu nhiên tạo pháo hoa
     document.body.addEventListener("click", (e) => {
       if (e.target.classList.contains("heart")) return;
-      const icon = icons[Math.floor(Math.random() * icons.length)];
       const heart = document.createElement("div");
       heart.classList.add("heart");
-      heart.innerText = icon;
+      heart.innerText = useFlowers 
+        ? flowers[Math.floor(Math.random() * flowers.length)] 
+        : icons[Math.floor(Math.random() * icons.length)];
       heart.style.left = e.clientX + "px";
       heart.style.top = e.clientY + "px";
       heart.style.fontSize = (20 + Math.random() * 15) + "px";
@@ -295,7 +304,9 @@ DOCTYPE html>
       popSound.currentTime = 0;
       popSound.play();
       for (let i = 0; i < 12; i++) {
-        const icon = icons[Math.floor(Math.random() * icons.length)];
+        const icon = useFlowers 
+          ? flowers[Math.floor(Math.random() * flowers.length)] 
+          : icons[Math.floor(Math.random() * icons.length)];
         const piece = document.createElement("div");
         piece.classList.add("explosion");
         piece.innerText = icon;
@@ -318,25 +329,39 @@ DOCTYPE html>
       document.getElementById("passwordModal").style.display = "none";
     }
     function checkPassword() {
-  const pass = document.getElementById("passwordInput").value;
-  const errorMessage = document.getElementById("errorMessage");
-  const secretMessage = document.getElementById("secretMessage");
+      const pass = document.getElementById("passwordInput").value;
+      const errorMessage = document.getElementById("errorMessage");
+      const secretMessage = document.getElementById("secretMessage");
 
-  // Danh sách mật khẩu chính xác
-  const validPasswords = ["kizciti2025", "duong", "love", "parttime"];
+      const validPasswords = ["kizciti2025", "duong", "love", "parttime"];
 
-  if (validPasswords.includes(pass) || (pass && pass.toLowerCase().includes("n"))) {
-    secretMessage.style.display = "block";
-    errorMessage.style.display = "none";
-  } else {
-    errorMessage.style.display = "block";
-    secretMessage.style.display = "none";
-    audioSecret.pause();
-    audioMain.currentTime = 0;
-    audioMain.play();
-  }
-}
+      if (validPasswords.includes(pass) || (pass && pass.toLowerCase().includes("n"))) {
+        secretMessage.style.display = "block";
+        errorMessage.style.display = "none";
 
+        // Đổi nhạc sang bí mật
+        audioMain.pause();
+        audioSecret.currentTime = 0;
+        audioSecret.play();
+
+        // Bật chế độ hoa
+        useFlowers = true;
+
+        // Đổi tất cả icon đang bay thành hoa
+        document.querySelectorAll(".heart").forEach(icon => {
+          icon.innerText = flowers[Math.floor(Math.random() * flowers.length)];
+          icon.style.color = "";
+          icon.style.fontSize = "22px";
+        });
+
+      } else {
+        errorMessage.style.display = "block";
+        secretMessage.style.display = "none";
+        audioSecret.pause();
+        audioMain.currentTime = 0;
+        audioMain.play();
+      }
+    }
 
     // Nội dung gõ chữ
     const fullText = `Kính gửi toàn thể anh chị điều hành cùng các anh chị HDV,
