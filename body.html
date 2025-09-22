@@ -1,164 +1,241 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-<meta charset="UTF-8">
-<title>Lời Tạm Biệt 💜</title>
-<style>
-  body {
-    margin: 0;
-    padding: 0;
-    height: 100vh;
-    overflow: hidden;
-    background: #000;
-    transition: opacity 1s ease;
-    cursor: pointer;
-  }
-  body.fade-out { opacity: 0; }
+  <meta charset="UTF-8" />
+  <title>Lời Tạm Biệt 💜</title>
+  <img src="picture/anh.webp" alt="Logo" id="logo" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Great+Vibes&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: "Poppins", sans-serif;
+      background: url("picture/nengiayne.jpg") no-repeat center center fixed;
+      background-size: cover;
+      overflow: hidden;
+    }
+    #overlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.9);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+    }
+    #overlay h1 {
+      color: white;
+      font-family: "Great Vibes", cursive;
+      font-size: 50px;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    #overlay button {
+      font-size: 20px;
+      margin: 10px;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 15px;
+      cursor: pointer;
+      transition: transform 0.3s;
+    }
+    #yesBtn { background: #6c5ce7; color: white; }
+    #noBtn { background: #d63031; color: white; position: absolute; }
+    #laterBtn {
+      background: #00b894;
+      color: white;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      transition: left 0.3s ease, top 0.3s ease;
+    }
+    .container {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+    }
+    .center-img {
+      position: absolute;
+      top: 50%;
+      left: -400px;
+      transform: translateY(-50%);
+      width: 700px;
+      animation: moveCenter 2s forwards;
+      cursor: pointer;
+      z-index: 5;
+    }
+    .decor-img {
+      position: absolute;
+      top: -200px;
+      right: -200px;
+      width: 2000px;
+      animation: moveBottomLeft 2.5s forwards;
+    }
+    .arrow-img {
+      position: absolute;
+      top: -20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      animation: moveTopCenter 3s forwards;
+    }
+    @keyframes moveCenter {
+      to { left: 50%; transform: translate(-50%, -50%); }
+    }
+    @keyframes moveBottomLeft {
+      to { top: -70px; right: 1000px; }
+    }
+    @keyframes moveTopCenter {
+      to { top: 24%; }
+    }
+    .fade-out { animation: fadeOut 1s forwards; }
+    @keyframes fadeOut { to { opacity: 0; } }
+    #fireworks {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 10000;
+    }
+    #logo {
+  position: fixed;
+  bottom: 20px; 
+  right: 20px; 
+  width: 120px;  
+  z-index: 10000;
+  pointer-events: none; 
+}
 
-  /* Container ảnh */
-  .container {
-    position: relative;
-    width: 100%;
-    height: 100%;
-  }
-
-  .background { position:absolute; width:100%; height:100%; object-fit:cover; z-index:1; }
-  .center-img { position:absolute; width:750px; top:50%; left:-800px; transform:translateY(-50%); opacity:0; z-index:2; cursor:pointer; animation: moveCenter 3s ease forwards; }
-  .bottom-left-img { position:absolute; width:1300px; bottom:-200px; left:-300px; opacity:0; z-index:2; animation: moveBottomLeft 2s ease 1s forwards; }
-  .top-center-img { position:absolute; width:50px; left:50%; top:60%; transform:translateX(-50%); opacity:0; z-index:6; animation: moveTopCenter 2s ease 1.5s forwards; }
-
-  @keyframes moveCenter { to { left:50%; transform:translate(-50%, -50%); opacity:1; } }
-  @keyframes moveBottomLeft { to { left:-690px; bottom:-200px; opacity:1; } }
-  @keyframes moveTopCenter { to { top:27%; opacity:1; } }
-
-  /* Overlay câu hỏi */
-  #questionOverlay {
-    position: fixed;
-    top:0; left:0;
-    width:100%; height:100%;
-    background: rgba(0,0,0,0.7);
-    z-index: 10000;
-    display:flex;
-    justify-content: center;
-    align-items: center;
-    font-family:'Poppins', sans-serif;
-  }
-
-  .question-box {
-    background: #fff;
-    color: #000;
-    padding: 30px 40px;
-    border-radius: 15px;
-    text-align: center;
-    width: 420px;
-    max-width: 90%;
-    box-shadow: 0 5px 20px rgba(0,0,0,0.3);
-    position: relative;
-  }
-
-  .question-box p {
-    font-size: 1.3rem;
-    margin-bottom: 25px;
-  }
-
-  .question-box button {
-    padding: 12px 25px;
-    margin: 10px;
-    font-size:1rem;
-    border:none;
-    border-radius:8px;
-    cursor:pointer;
-    font-weight:700;
-    transition: all 0.3s ease;
-  }
-
-  #agreeBtn { 
-    background-color:#4ade80; 
-    color:#000; 
-  }
-  #agreeBtn:hover {
-    background-color:#3b82f6;
-    color:#fff;
-  }
-
-  #disagreeBtn { 
-    background-color:#f87171; 
-    color:#000; 
-    position:absolute; 
-  }
-</style>
+  </style>
 </head>
 <body>
-  <!-- Overlay câu hỏi -->
-  <div id="questionOverlay">
-    <div class="question-box">
-      <p>Dương có gửi tại đây một bức thư nhỏ, anh/chị/các bạn có muốn xem qua không ?</p>
-      <button id="agreeBtn">Đồng Ý</button>
-      <button id="disagreeBtn">Không nhaaa ^^</button>
-    </div>
+  <div id="overlay">
+    <h1>Nhấn mở để khám phá bức thư nha !!!</h1>
+    <button id="yesBtn">Đồng Ý 💌</button>
+    <button id="noBtn">Không nhaaa ^^</button>
+    <button id="laterBtn">Xem sau 🥺</button>
   </div>
-
-  <div class="container">
-    <img src="picture/nengiayne.jpg" class="background">
-    <img src="picture/lathu.png" class="center-img" id="center-img">
-    <img src="picture/decor.png" class="bottom-left-img">
-    <img src="picture/muiten.png" class="top-center-img">
+  <canvas id="fireworks"></canvas>
+  <div class="container" id="mainContent" style="display:none;">
+    <img src="picture/lathu.png" alt="Lá thư" class="center-img" id="center-img">
+    <img src="picture/decor.png" alt="Trang trí" class="decor-img">
+    <img src="picture/muiten.png" alt="Mũi tên" class="arrow-img">
   </div>
-
-  <!-- Âm thanh -->
-  <audio id="centerSound"><source src="amthanh/click2.wav" type="audio/mpeg"></audio>
-  <audio id="anyClickSound"><source src="amthanh/click.wav" type="audio/mpeg"></audio>
-
+  <audio id="clickSound" src="amthanh/click.wav"></audio>
+  <audio id="clickSound2" src="amthanh/click2.wav"></audio>
   <script>
+    const overlay = document.getElementById("overlay");
+    const yesBtn = document.getElementById("yesBtn");
+    const noBtn = document.getElementById("noBtn");
+    const laterBtn = document.getElementById("laterBtn");
+    const mainContent = document.getElementById("mainContent");
     const centerImg = document.getElementById("center-img");
-    const centerAudio = document.getElementById("centerSound");
-    const anyAudio = document.getElementById("anyClickSound");
+    const clickSound = document.getElementById("clickSound");
+    clickSound.volume = 0.7;
+    const clickSound2 = document.getElementById("clickSound2");
 
-    // Click ảnh giữa → fade out + chuyển trang + âm thanh
-    centerImg.addEventListener("click", function(e){
-      e.stopPropagation();
-      centerAudio.currentTime = 0.7;
-      centerAudio.volume = 1.0; 
-      centerAudio.play();
-      document.body.classList.add("fade-out");
-      setTimeout(()=>{ window.location.href="end.html"; },1000);
+    yesBtn.addEventListener("click", () => {
+      overlay.style.display = "none";
+      mainContent.style.display = "block";
     });
 
-    // Click body → âm thanh khác
-    document.body.addEventListener("click", function(e){
-      if(e.target!==centerImg){ 
-        anyAudio.currentTime=0; 
-        anyAudio.play(); 
+    noBtn.addEventListener("mouseover", () => {
+      const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
+      const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
+      noBtn.style.left = x + "px";
+      noBtn.style.top = y + "px";
+    });
+
+    laterBtn.addEventListener("mouseover", () => {
+      const x = Math.random() * (window.innerWidth - laterBtn.offsetWidth);
+      const y = Math.random() * (window.innerHeight - laterBtn.offsetHeight);
+      laterBtn.style.left = x + "px";
+      laterBtn.style.top = y + "px";
+    });
+
+    laterBtn.addEventListener("click", () => {
+      overlay.style.display = "none";
+      mainContent.style.display = "block";
+    });
+
+    centerImg.addEventListener("click", () => {
+      clickSound2.currentTime = 0.7;
+      clickSound2.play();
+      document.body.classList.add("fade-out");
+      setTimeout(() => {
+        window.location.href = "end.html";
+      }, 1000);
+    });
+
+    document.body.addEventListener("click", (e) => {
+      if (e.target !== centerImg) {
+        clickSound.currentTime = 0;
+        clickSound.play();
+        fireworks.shoot(Math.random() * window.innerWidth, Math.random() * window.innerHeight);
       }
     });
 
-    // --- Câu hỏi ---
-    const overlay = document.getElementById("questionOverlay");
-    const agreeBtn = document.getElementById("agreeBtn");
-    const disagreeBtn = document.getElementById("disagreeBtn");
-    const questionBox = document.querySelector(".question-box");
+    const canvas = document.getElementById("fireworks");
+    const ctx = canvas.getContext("2d");
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
 
-    // Khi chọn Đồng Ý → ẩn overlay
-    agreeBtn.addEventListener("click", ()=>{
-      overlay.style.display="none";
+    class Firework {
+      constructor(x, y) {
+        this.x = x; this.y = y;
+        this.particles = [];
+        for (let i = 0; i < 50; i++) {
+          const angle = Math.random() * 2 * Math.PI;
+          const speed = Math.random() * 5 + 2;
+          this.particles.push({
+            x: x, y: y,
+            vx: Math.cos(angle) * speed,
+            vy: Math.sin(angle) * speed,
+            alpha: 1,
+            radius: Math.random() * 3 + 2
+          });
+        }
+      }
+      update() {
+        this.particles.forEach(p => {
+          p.x += p.vx;
+          p.y += p.vy;
+          p.vy += 0.05;
+          p.alpha -= 0.01;
+        });
+      }
+      draw(ctx) {
+        this.particles.forEach(p => {
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.radius, 0, 2 * Math.PI);
+          ctx.fillStyle = `rgba(255, ${Math.random()*255}, ${Math.random()*255}, ${p.alpha})`;
+          ctx.fill();
+        });
+      }
+    }
+
+    const fireworks = {
+      list: [],
+      shoot(x, y) { this.list.push(new Firework(x, y)); },
+      animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        this.list.forEach((fw, i) => {
+          fw.update();
+          fw.draw(ctx);
+          if (fw.particles.every(p => p.alpha <= 0)) this.list.splice(i, 1);
+        });
+        requestAnimationFrame(() => this.animate());
+      }
+    };
+    fireworks.animate();
+
+    window.addEventListener("resize", () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
     });
-
-    // Khi hover Không nhaaa → nút nhảy trong toàn màn hình
-disagreeBtn.addEventListener("mouseenter", ()=> {
-  const btnWidth = disagreeBtn.offsetWidth;
-  const btnHeight = disagreeBtn.offsetHeight;
-
-  const maxX = window.innerWidth - btnWidth;
-  const maxY = window.innerHeight - btnHeight;
-
-  let randX = Math.floor(Math.random() * maxX);
-  let randY = Math.floor(Math.random() * maxY);
-
-  disagreeBtn.style.position = "fixed"; // Quan trọng: tách khỏi box
-  disagreeBtn.style.left = randX + "px";
-  disagreeBtn.style.top = randY + "px";
-});
-
   </script>
 </body>
 </html>
