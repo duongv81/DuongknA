@@ -1,82 +1,111 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8">
-  <title>Lời Tạm Biệt 💜</title>
-  <style>
-    /* Preloader */
-    #preloader {
-      position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background-color: #808080; /* nền xám */
-      z-index: 9999999;
-    }
-
-    .spinner {
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      width: 50px;
-      height: 30px;
-      text-align: center;
-      font-size: 10px;
-      margin-left: -25px;
-    }
-
-    .spinner > div {
-      background-color: #fff;
-      height: 100%;
-      width: 6px;
-      display: inline-block;
-      animation: stretchdelay 1.2s infinite ease-in-out;
-    }
-
-    .spinner .rect2 { animation-delay: -1.1s; }
-    .spinner .rect3 { animation-delay: -1.0s; }
-    .spinner .rect4 { animation-delay: -0.9s; }
-    .spinner .rect5 { animation-delay: -0.8s; }
-
-    @keyframes stretchdelay {
-      0%, 40%, 100% { transform: scaleY(0.4); }
-      20% { transform: scaleY(1.0); }
-    }
-
-    /* Nội dung trang */
-    .content {
-      display: none; /* Ẩn khi đang loading */
-      text-align: center;
-      margin-top: 100px;
-    }
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Lời Tạm Biệt 💜</title>
+<style>
+  body, html {
+    margin:0; padding:0; height:100%; overflow:hidden;
+    font-family: 'Great Vibes', sans-serif;
+    background-color:#000; color:#fff;
+  }
+  #startScreen {
+    position:fixed; top:0; left:0; width:100%; height:100%;
+    display:flex; flex-direction:column; justify-content:center; align-items:center;
+    z-index:10;
+  }
+  video {
+    position:absolute; top:0; left:0; width:100%; height:100%;
+    object-fit:cover; z-index:-1;
+  }
+  .glass-button {
+    padding:18px 32px; font-size:1.8rem;
+    border-radius:16px; background:rgba(255,255,255,0.08);
+    border:1px solid rgba(255,255,255,0.18); backdrop-filter:blur(12px);
+    color:#fff; cursor:pointer; text-shadow:0 2px 6px rgba(0,0,0,0.5);
+    transition: transform 0.3s ease, background 0.4s ease;
+    margin-top:20px;
+  }
+  .glass-button:hover { transform: scale(1.06); background: rgba(255,255,255,0.12); }
+  .note {
+    position:absolute; bottom:20px; left:50%; transform:translateX(-50%);
+    background:rgba(255,255,255,0.1); padding:14px 18px; border-radius:12px;
+    border:1px solid rgba(255,255,255,0.18); backdrop-filter:blur(10px);
+    text-align:center; max-width:90%;
+  }
+  #preloader {
+    display: none;
+    margin-top: 24px;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 20px;
+    padding: 20px;
+  }
+  .countdown { font-size:3rem; font-weight:bold; margin:12px 0; }
+  .loading-bar { display:inline-block; width:8px; height:36px;
+    margin:0 3px; background:rgba(255,255,255,0.6); border-radius:6px;
+    animation: bounce 1s infinite ease-in-out;
+  }
+  .loading-bar:nth-child(2){animation-delay:0.12s;}
+  .loading-bar:nth-child(3){animation-delay:0.24s;}
+  .loading-bar:nth-child(4){animation-delay:0.36s;}
+  .loading-bar:nth-child(5){animation-delay:0.48s;}
+  @keyframes bounce { 0%,100%{transform:scaleY(0.4);} 50%{transform:scaleY(1);} }
+</style>
 </head>
 <body>
-
-  <!-- Preloader -->
+<div id="startScreen">
+  <video autoplay muted loop>
+    <source src="video/video1.mp4" type="video/mp4">
+  </video>
+  <div id="overlayBox"></div>
+  <div class="note"><b>🗨️ Lưu ý:</b> Hãy sử dụng máy tính, bật âm lượng để mở khóa các tính năng ẩn ^^</div>
+  <div id="startBtn" class="glass-button">Khám phá</div>
   <div id="preloader">
-    <div class="spinner">
-      <div class="rect1"></div>
-      <div class="rect2"></div>
-      <div class="rect3"></div>
-      <div class="rect4"></div>
-      <div class="rect5"></div>
+    <div class="h"><b> </b> Mọi người chờ Dương chút nhaa</div>
+    <div class="countdown" id="countdown">10 </div>
+    <div>
+      <div class="loading-bar"></div>
+      <div class="loading-bar"></div>
+      <div class="loading-bar"></div>
+      <div class="loading-bar"></div>
+      <div class="loading-bar"></div>
     </div>
+    <div id="loadStatus">Đang tải...</div>
   </div>
+</div>
 
-  <!-- Nội dung chính (nếu muốn hiển thị ngay, không bắt buộc) -->
-  <div class="content">
-    <h1>Trang đang tải...</h1>
-  </div>
+<script>
+  const startBtn = document.getElementById("startBtn");
+  const preloader = document.getElementById("preloader");
+  const countdownElem = document.getElementById("countdown");
+  const loadStatus = document.getElementById("loadStatus");
+  const bgMusic = new Audio("amthanh/nen3.m4a");
+  bgMusic.volume = 0.5;
 
-  <script>
-    // Sau 2 giây, ẩn preloader và chuyển sang trang chính
-    window.addEventListener("load", function() {
-      setTimeout(() => {
-        document.getElementById("preloader").style.display = "none";
-        // Chuyển sang trang main.html (trang ảnh morph + câu hỏi)
-        window.location.href = "body.html";
-      }, 2000);
-    });
-  </script>
-
+  startBtn.addEventListener("click", () => {
+    startBtn.style.display = "none";
+    preloader.style.display = "block";
+    bgMusic.play().catch(() => {});
+    let timeLeft = 10;
+    const tick = setInterval(() => {
+      countdownElem.textContent = timeLeft;
+      loadStatus.textContent = `Đang tải... ${10 - timeLeft}/10`;
+      timeLeft--;
+      if (timeLeft < 0) {
+        clearInterval(tick);
+        preloader.style.transition = "opacity 1s ease";
+        preloader.style.opacity = 0;
+        setTimeout(() => {
+          window.location.href = "index2.html";
+        }, 1000);
+      }
+    }, 1000);
+  });
+</script>
 </body>
 </html>
+
