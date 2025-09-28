@@ -1,0 +1,2146 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+<meta name="mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<meta name="theme-color" content="#000000" />
+<title>Lời Tạm Biệt 💜</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Great+Vibes&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+  /* CSS Custom Properties for responsive design */
+  :root {
+    --animation-duration: 0.5s;
+    --backdrop-filter: blur(12px);
+    --touch-target-size: 44px;
+    --mobile-padding: 15px;
+    --tablet-padding: 20px;
+    --desktop-padding: 40px;
+  }
+
+  /* Reset và base styles */
+  body, html {
+    margin: 0; 
+    padding: 0; 
+    height: 100%; 
+    overflow: hidden;
+    font-family: 'Poppins', sans-serif;
+    background-color: #000; 
+    color: #fff;
+    transition: background 1s ease;
+  }
+
+  body.page3 {
+    overflow-y: auto;
+  }
+
+  /* Container chính cho tất cả các trang */
+  .page-container {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  /* Styles cho trang 1 - Start Screen */
+  .page {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 1s ease-in-out;
+    z-index: 1;
+  }
+
+  .page.active {
+    opacity: 1;
+    visibility: visible;
+    z-index: 10;
+  }
+
+  .page.prev {
+    transform: translateX(-100%);
+  }
+
+  .page.next {
+    transform: translateX(100%);
+  }
+
+  /* PAGE 1 STYLES */
+  #page1 {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  #page1 video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -1;
+  }
+
+  .glass-button {
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.18);
+    backdrop-filter: blur(12px);
+    color: #fff;
+    cursor: pointer;
+    text-shadow: 0 2px 6px rgba(0,0,0,0.5);
+    transition: transform 0.3s ease, background 0.4s ease;
+    margin-top: 20px;
+  }
+
+  .glass-button:hover {
+    transform: scale(1.06);
+    background: rgba(255,255,255,0.12);
+  }
+
+  .note {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(255,255,255,0.1);
+    border-radius: 12px;
+    border: 1px solid rgba(255,255,255,0.18);
+    backdrop-filter: blur(10px);
+    text-align: center;
+  }
+
+  #preloader {
+    display: none;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 20px;
+  }
+
+  .countdown {
+    font-weight: bold;
+    margin: 12px 0;
+  }
+
+  .loading-bar {
+    display: inline-block;
+    background: rgba(255,255,255,0.6);
+    border-radius: 6px;
+    animation: bounce 1s infinite ease-in-out;
+  }
+
+  .loading-bar:nth-child(2) { animation-delay: 0.12s; }
+  .loading-bar:nth-child(3) { animation-delay: 0.24s; }
+  .loading-bar:nth-child(4) { animation-delay: 0.36s; }
+  .loading-bar:nth-child(5) { animation-delay: 0.48s; }
+
+  @keyframes bounce {
+    0%, 100% { transform: scaleY(0.4); }
+    50% { transform: scaleY(1); }
+  }
+
+  /* PAGE 2 STYLES */
+  #page2 {
+    font-family: "Poppins", sans-serif;
+    background: url("picture/nengiayne.jpg") no-repeat center center fixed;
+    background-size: cover;
+  }
+
+  #overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+  }
+
+  #overlay h1 {
+    color: white;
+    font-family: "Great Vibes", cursive;
+    text-align: center;
+  }
+
+  #overlay button {
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: transform 0.3s;
+  }
+
+  #yesBtn { background: #6c5ce7; color: white; }
+  #noBtn { background: #d63031; color: white; position: absolute; }
+  #laterBtn {
+    background: #00b894;
+    color: white;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    transition: left 0.3s ease, top 0.3s ease;
+  }
+
+  .container {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+  }
+
+  .center-img {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    animation: moveCenter 2s forwards;
+    cursor: pointer;
+    z-index: 5;
+  }
+
+  .decor-img {
+    position: absolute;
+    animation: moveBottomLeft 2.5s forwards;
+  }
+
+  .arrow-img {
+    position: absolute;
+    top: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    animation: moveTopCenter 3s forwards;
+  }
+
+  @keyframes moveCenter {
+    to { left: 50%; transform: translate(-50%, -50%); }
+  }
+
+  @keyframes moveBottomLeft {
+    to { top: -70px; right: 1000px; }
+  }
+
+  @keyframes moveTopCenter {
+    to { top: 24%; }
+  }
+
+  .fade-out { animation: fadeOut 1s forwards; }
+
+  @keyframes fadeOut {
+    to { opacity: 0; }
+  }
+
+  #fireworks {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 10000;
+  }
+
+  #logo {
+    position: fixed;
+    z-index: 10000;
+    pointer-events: none;
+  }
+
+  /* PAGE 3 STYLES */
+  #page3 {
+    margin: 0;
+    min-height: 100vh;
+    background: url('picture/nengiayne.jpg') center/cover no-repeat;
+    background-size: 100% 100%;
+    color: #fff;
+    font-family: 'Poppins', sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-sizing: border-box;
+    transition: background 1s ease;
+    overflow-y: auto;
+  }
+
+  #page3 h1 {
+    font-family: 'Great Vibes', cursive;
+    color: #08364b;
+    text-align: center;
+    font-weight: 700;
+    text-shadow: 0 0 10px rgba(9, 55, 77, 0.7);
+  }
+
+  #content {
+    border-radius: 16px;
+    line-height: 1.7;
+    color: #ddd;
+    white-space: pre-wrap;
+    position: relative;
+    z-index: 1;
+    transition: background 1s ease, color 1s ease;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    box-sizing: border-box;
+    overflow-y: auto;
+    overflow-x: hidden;
+    hyphens: auto;
+    -webkit-hyphens: auto;
+    -ms-hyphens: auto;
+  }
+
+  /* Custom scrollbar for content */
+  #content::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  #content::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+  }
+
+  #content::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 4px;
+  }
+
+  #content::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.5);
+  }
+
+  #content.bg-white {
+    background: rgba(241, 242, 243, 0.85);
+    color: #0a0101;
+    backdrop-filter: blur(8px);
+  }
+
+  #playButton {
+    font-weight: 700;
+    border: none;
+    border-radius: 50px;
+    background: linear-gradient(135deg, #2563eb, #3b82f6);
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 15px rgba(59, 130, 246, 0.6);
+  }
+
+  #playButton:hover {
+    background: linear-gradient(135deg, #1d4ed8, #2563eb);
+    transform: scale(1.05);
+  }
+
+  .heart {
+    position: absolute;
+    bottom: 0;
+    animation: floatUpWave 8s ease-in-out forwards;
+    user-select: none;
+    pointer-events: none;
+    will-change: transform;
+    z-index: 999;
+    text-shadow: 0 0 6px rgba(232,121,249,0.6);
+    filter: drop-shadow(0 0 8px rgba(255,255,255,0.3));
+  }
+
+  @keyframes floatUpWave {
+    0% { 
+      transform: translateY(0) scale(1); 
+      opacity: 1;
+    }
+    50% {
+      transform: translateY(-50vh) scale(1.1);
+      opacity: 0.8;
+    }
+    100% { 
+      transform: translateY(-100vh) scale(0.8); 
+      opacity: 0;
+    }
+  }
+
+  .explosion {
+    position: absolute;
+    opacity: 1;
+    pointer-events: none;
+    animation: explode 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+    filter: drop-shadow(0 0 6px rgba(255,255,255,0.8));
+    z-index: 9998;
+  }
+
+  /* Lock icon styles */
+  .lock-icon {
+    position: absolute;
+    bottom: 0;
+    animation: floatUpWave 8s ease-in-out forwards;
+    user-select: none;
+    pointer-events: auto;
+    will-change: transform;
+    z-index: 999;
+    text-shadow: 0 0 6px rgba(255,215,0,0.8);
+    filter: drop-shadow(0 0 8px rgba(255,215,0,0.5));
+    cursor: pointer;
+    font-size: 24px;
+  }
+
+  /* Lock modal styles */
+  #lockModal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.6);
+    z-index: 2003;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  #lockModal.show {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  #lockModal .box {
+    background: rgba(255,255,255,0.15);
+    backdrop-filter: blur(12px);
+    padding: 20px 16px;
+    margin: 20px;
+    border-radius: 20px;
+    text-align: center;
+    max-width: calc(100vw - 40px);
+    width: calc(100vw - 40px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.6);
+    color: #fff;
+    border: 1px solid rgba(255,255,255,0.25);
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transform: scale(0.8) translateY(20px);
+    opacity: 0;
+  }
+
+  #lockModal.show .box {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+  }
+
+  #lockModal h3 {
+    margin-bottom: 15px;
+    font-size: 1.3rem;
+    color: #ffd700;
+    text-shadow: 0 0 8px rgba(255,215,0,0.7);
+  }
+
+  #lockModal .hint {
+    margin-bottom: 15px;
+    font-size: 0.9rem;
+    color: #ffe0b2;
+    opacity: 0.8;
+  }
+
+  #lockModal input {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border-radius: 10px;
+    border: 1px solid rgba(255,255,255,0.3);
+    background: rgba(255,255,255,0.1);
+    color: #fff;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+  }
+
+  #lockModal input:focus {
+    outline: none;
+    border-color: rgba(255,215,0,0.8);
+    background: rgba(255,255,255,0.15);
+    box-shadow: 0 0 8px rgba(255,215,0,0.4);
+  }
+
+  #lockModal button {
+    margin: 8px;
+    padding: 10px 16px;
+    border-radius: 12px;
+    border: none;
+    background: linear-gradient(135deg,#ffd700,#ffed4e);
+    color: #333;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-height: 44px;
+  }
+
+  #lockModal button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 10px rgba(255,215,0,0.8);
+    filter: brightness(1.1);
+  }
+
+  #lockModal button:active {
+    transform: scale(0.95);
+  }
+
+  #lockModal p {
+    margin-top: 8px;
+    font-size: 0.95rem;
+    text-align: center;
+  }
+
+  #lockErrorMessage { color: #ff6b6b; display: none; }
+
+  /* Message Display Modal styles */
+  #messageDisplayModal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.6);
+    z-index: 2004;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  #messageDisplayModal.show {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  #messageDisplayModal .box {
+    background: rgba(255,255,255,0.15);
+    backdrop-filter: blur(12px);
+    padding: 20px 16px;
+    margin: 20px;
+    border-radius: 20px;
+    text-align: center;
+    max-width: calc(100vw - 40px);
+    width: calc(100vw - 40px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.6);
+    color: #fff;
+    border: 1px solid rgba(255,255,255,0.25);
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transform: scale(0.8) translateY(20px);
+    opacity: 0;
+  }
+
+  #messageDisplayModal.show .box {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+  }
+
+  #messageDisplayModal h3 {
+    margin-bottom: 15px;
+    font-size: 1.3rem;
+    color: #ffd700;
+    text-shadow: 0 0 8px rgba(255,215,0,0.7);
+  }
+
+  #messageDisplayModal p {
+    margin-bottom: 15px;
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #f0f0f0;
+    text-align: left;
+  }
+
+  /* Big heart explosion effect */
+  .big-heart {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 120px;
+    z-index: 10001;
+    pointer-events: none;
+    animation: bigHeartPulse 1s ease-in-out forwards;
+  }
+
+  @keyframes bigHeartPulse {
+    0% { 
+      transform: translate(-50%, -50%) scale(0.5);
+      opacity: 1;
+    }
+    50% {
+      transform: translate(-50%, -50%) scale(1.2);
+      opacity: 0.8;
+    }
+    100% { 
+      transform: translate(-50%, -50%) scale(1);
+      opacity: 0;
+    }
+  }
+
+
+  @keyframes explode {
+    0% { 
+      transform: scale(0.2) translate(0,0) rotate(0deg); 
+      opacity: 1; 
+    }
+    20% {
+      transform: scale(1.3) translate(calc(var(--x) * 0.3), calc(var(--y) * 0.3)) rotate(90deg);
+      opacity: 0.9;
+    }
+    60% {
+      transform: scale(1.1) translate(calc(var(--x) * 0.7), calc(var(--y) * 0.7)) rotate(270deg);
+      opacity: 0.6;
+    }
+    100% { 
+      transform: scale(0.5) translate(var(--x), var(--y)) rotate(360deg); 
+      opacity: 0; 
+    }
+  }
+
+  #passwordModal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.6);
+    z-index: 2000;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  #passwordModal.show {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  #passwordModal .box {
+    background: rgba(255,255,255,0.15);
+    backdrop-filter: blur(12px);
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.6);
+    color: #fff;
+    border: 1px solid rgba(255,255,255,0.25);
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transform: scale(0.8) translateY(20px);
+    opacity: 0;
+  }
+
+  #passwordModal.show .box {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+  }
+
+  #passwordModal h3 {
+    margin-bottom: 15px;
+    color: #ffe0b2;
+    text-shadow: 0 0 8px rgba(255,224,178,0.7);
+  }
+
+  #passwordModal input {
+    width: 100%;
+    border-radius: 10px;
+    border: 1px solid rgba(255,255,255,0.3);
+    background: rgba(255,255,255,0.1);
+    color: #fff;
+    transition: all 0.3s ease;
+  }
+
+  #passwordModal input:focus {
+    outline: none;
+    border-color: rgba(250,200,20,0.8);
+    background: rgba(255,255,255,0.15);
+    box-shadow: 0 0 8px rgba(250,200,20,0.4);
+  }
+
+  #passwordModal button {
+    margin: 8px;
+    border-radius: 12px;
+    border: none;
+    background: linear-gradient(135deg,#f97316,#facc15);
+    color: #fff;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  #passwordModal button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 10px rgba(250,200,20,0.8);
+    filter: brightness(1.1);
+  }
+
+  #passwordModal button:active {
+    transform: scale(0.95);
+  }
+
+  #passwordModal p {
+    margin-top: 8px;
+    text-align: center;
+  }
+
+  #errorMessage { color: #ff6b6b; display: none; }
+  #secretMessage { color: #a5f3fc; display: none; }
+
+  /* Message button and modals */
+  #messageBtn {
+    display: none;
+    position: fixed;
+    left: 50%;
+    transform: translateX(-50%);
+    border: none;
+    border-radius: 999px;
+    font-weight: 700;
+    cursor: pointer;
+    background: linear-gradient(135deg, #ec4899, #f59e0b);
+    color: #fff;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.35);
+    z-index: 2001;
+    transition: transform 0.2s ease, filter 0.2s ease;
+  }
+  #messageBtn:hover { transform: translateX(-50%) scale(1.05); filter: brightness(1.05); }
+
+  #messageModal, #thankModal {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.6);
+    z-index: 2002;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+  #messageModal.show, #thankModal.show { opacity: 1; visibility: visible; }
+  #messageModal .box, #thankModal .box {
+    background: rgba(255,255,255,0.15);
+    backdrop-filter: blur(12px);
+    border-radius: 16px;
+    color: #fff;
+    border: 1px solid rgba(255,255,255,0.25);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.6);
+    transform: scale(0.94) translateY(10px);
+    opacity: 0;
+    transition: all 0.25s ease;
+    text-align: center;
+  }
+  #messageModal.show .box, #thankModal.show .box { transform: scale(1) translateY(0); opacity: 1; }
+  #messageModal h3 { margin: 0 0 12px; color: #ffe0b2; }
+  #messageModal textarea {
+    width: 100%;
+    resize: vertical;
+    border-radius: 12px;
+    border: 1px solid rgba(146, 201, 58, 0.932);
+    background: rgba(255,255,255,0.1);
+    color: #d387ba;
+    outline: none;
+    transition: all 0.2s ease;
+  }
+  #messageModal textarea:focus { border-color: rgba(99,102,241,0.9); box-shadow: 0 0 8px rgba(99,102,241,0.45); }
+  .modal-actions { margin-top: 14px; display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; }
+  .btn {
+    border: none; 
+    border-radius: 12px; 
+    cursor: pointer; 
+    font-weight: 600; 
+    color: #fff;
+    background: linear-gradient(135deg, #2563eb, #3b82f6); 
+    transition: transform 0.2s ease, filter 0.2s ease;
+  }
+  .btn:hover { transform: scale(1.05); filter: brightness(1.05); }
+  .btn.secondary { background: linear-gradient(135deg, #6b7280, #9ca3af); }
+  #thankModal .box p { margin: 6px 0 0; }
+
+  /* Page transition effects */
+  .page-transition {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #ff9ff3, #feca57);
+    background-size: 400% 400%;
+    z-index: 10000;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    pointer-events: none;
+    animation: gradientShift 2s ease infinite;
+  }
+
+  .page-transition.active {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .page-transition.fade-out {
+    opacity: 0;
+    visibility: hidden;
+  }
+
+  @keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  /* Mobile-First Responsive Design */
+  
+  /* Base styles are mobile-first (320px+) */
+  .glass-button {
+    padding: 12px 20px;
+    font-size: 1.2rem;
+    border-radius: 10px;
+    min-height: 44px; /* Touch-friendly minimum */
+    min-width: 120px;
+  }
+
+  .note {
+    padding: 10px 14px;
+    font-size: 0.85rem;
+    bottom: 15px;
+    max-width: 95%;
+  }
+
+  #preloader {
+    padding: 14px;
+    margin-top: 16px;
+    max-width: 95%;
+  }
+
+  .countdown {
+    font-size: 2.2rem;
+  }
+
+  .loading-bar {
+    width: 5px;
+    height: 28px;
+    margin: 0 2px;
+  }
+
+  #overlay h1 {
+    font-size: 2.2rem;
+    margin-bottom: 15px;
+    padding: 0 20px;
+  }
+
+  #overlay button {
+    font-size: 16px;
+    margin: 8px;
+    padding: 12px 18px;
+    min-height: 44px;
+    min-width: 120px;
+  }
+
+  .center-img {
+    width: 280px;
+    left: -280px;
+  }
+
+  .decor-img {
+    width: 1200px;
+    top: -150px;
+    right: -150px;
+  }
+
+  .arrow-img {
+    width: 80px;
+  }
+
+  #page3 {
+    padding: 20px 15px;
+  }
+
+  #page3 h1 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    padding: 0 10px;
+  }
+
+  #content {
+    max-width: 100%;
+    padding: 20px 15px;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    min-height: 300px;
+    max-height: 60vh;
+  }
+
+  #playButton {
+    padding: 12px 24px;
+    font-size: 1rem;
+    margin-bottom: 20px;
+    min-height: 44px;
+  }
+
+  #messageBtn {
+    padding: 12px 20px;
+    font-size: 0.95rem;
+    bottom: 20px;
+    min-height: 44px;
+  }
+
+  #passwordModal .box,
+  #messageModal .box,
+  #thankModal .box {
+    padding: 20px 16px;
+    margin: 20px;
+    max-width: calc(100vw - 40px);
+    width: calc(100vw - 40px);
+  }
+
+  #passwordModal h3,
+  #messageModal h3,
+  #thankModal h3 {
+    font-size: 1.1rem;
+    margin-bottom: 12px;
+  }
+
+  #passwordModal input,
+  #messageModal textarea {
+    font-size: 16px; /* Prevents zoom on iOS */
+    padding: 12px;
+    margin: 10px 0;
+  }
+
+  #messageModal textarea {
+    min-height: 100px;
+  }
+
+  .modal-actions {
+    margin-top: 12px;
+    gap: 8px;
+  }
+
+  .btn {
+    padding: 10px 16px;
+    font-size: 0.95rem;
+    min-height: 44px;
+  }
+
+  #logo {
+    width: 80px;
+    bottom: 15px;
+    right: 15px;
+  }
+
+  .heart {
+    font-size: 16px;
+  }
+
+  .explosion {
+    font-size: 14px;
+  }
+
+  /* Small mobile devices (320px - 480px) */
+  @media (max-width: 480px) {
+    .glass-button {
+      padding: 10px 16px;
+      font-size: 1.1rem;
+    }
+
+    .note {
+      font-size: 0.8rem;
+      padding: 8px 12px;
+    }
+
+    #overlay h1 {
+      font-size: 1.8rem;
+      padding: 0 15px;
+    }
+
+    #overlay button {
+      font-size: 14px;
+      padding: 10px 14px;
+      margin: 6px;
+    }
+
+    .center-img {
+      width: 240px;
+      left: -240px;
+    }
+
+    .decor-img {
+      width: 1000px;
+    }
+
+    .arrow-img {
+      width: 70px;
+    }
+
+    #page3 h1 {
+      font-size: 1.7rem;
+    }
+
+    #content {
+      padding: 15px 12px;
+      font-size: 0.9rem;
+      min-height: 250px;
+    }
+
+    #passwordModal .box,
+    #messageModal .box,
+    #thankModal .box {
+      margin: 15px;
+      padding: 16px 12px;
+      max-width: calc(100vw - 30px);
+      width: calc(100vw - 30px);
+    }
+
+    #logo {
+      width: 70px;
+    }
+  }
+
+  /* Tablet portrait (481px - 768px) */
+  @media (min-width: 481px) and (max-width: 768px) {
+    .glass-button {
+      padding: 14px 24px;
+      font-size: 1.3rem;
+    }
+
+    .note {
+      font-size: 0.9rem;
+      padding: 12px 16px;
+    }
+
+    #overlay h1 {
+      font-size: 2.5rem;
+    }
+
+    #overlay button {
+      font-size: 18px;
+      padding: 12px 20px;
+    }
+
+    .center-img {
+      width: 400px;
+      left: -400px;
+    }
+
+    .decor-img {
+      width: 1400px;
+    }
+
+    .arrow-img {
+      width: 90px;
+    }
+
+    #page3 h1 {
+      font-size: 2.2rem;
+    }
+
+    #content {
+      padding: 25px 20px;
+      font-size: 1rem;
+    }
+
+    #passwordModal .box,
+    #messageModal .box,
+    #thankModal .box {
+      max-width: 400px;
+      width: 400px;
+    }
+  }
+
+  /* Tablet landscape and small desktop (769px - 1024px) */
+  @media (min-width: 769px) {
+    .glass-button {
+      padding: 18px 32px;
+      font-size: 1.8rem;
+    }
+
+    .note {
+      padding: 14px 18px;
+      font-size: 1rem;
+    }
+
+    #preloader {
+      padding: 20px;
+    }
+
+    .countdown {
+      font-size: 3rem;
+    }
+
+    .loading-bar {
+      width: 8px;
+      height: 36px;
+      margin: 0 3px;
+    }
+
+    #overlay h1 {
+      font-size: 50px;
+    }
+
+    #overlay button {
+      font-size: 20px;
+      padding: 10px 20px;
+    }
+
+    .center-img {
+      width: 700px;
+      left: -400px;
+    }
+
+    .decor-img {
+      width: 2000px;
+      top: -200px;
+      right: -200px;
+    }
+
+    .arrow-img {
+      width: 100px;
+    }
+
+    #page3 {
+      padding: 40px;
+    }
+
+    #page3 h1 {
+      font-size: 2.5em;
+    }
+
+    #content {
+      max-width: 900px;
+      padding: 30px 40px;
+      font-size: 1.05rem;
+      min-height: 420px;
+      max-height: 70vh;
+    }
+
+    #playButton {
+      padding: 12px 35px;
+      font-size: 1.1em;
+    }
+
+    #passwordModal .box,
+    #messageModal .box,
+    #thankModal .box {
+      max-width: 520px;
+      width: 520px;
+      padding: 24px 22px;
+    }
+
+    #logo {
+      width: 120px;
+      bottom: 20px;
+      right: 20px;
+    }
+  }
+
+  /* Large desktop (1025px+) */
+  @media (min-width: 1025px) {
+    #content {
+      max-width: 900px;
+    }
+
+    #passwordModal .box,
+    #messageModal .box,
+    #thankModal .box {
+      max-width: 520px;
+    }
+  }
+
+  /* Touch device optimizations */
+  @media (hover: none) and (pointer: coarse) {
+    .glass-button:hover,
+    #playButton:hover,
+    .btn:hover,
+    #messageBtn:hover {
+      transform: none;
+    }
+
+    .glass-button:active,
+    #playButton:active,
+    .btn:active,
+    #messageBtn:active {
+      transform: scale(0.95);
+    }
+  }
+
+  /* High DPI displays */
+  @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    .heart,
+    .explosion {
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+  }
+
+  /* Landscape orientation adjustments */
+  @media (orientation: landscape) and (max-height: 500px) {
+    .note {
+      bottom: 10px;
+      padding: 8px 12px;
+      font-size: 0.8rem;
+    }
+
+    #page3 {
+      padding: 15px;
+    }
+
+    #page3 h1 {
+      font-size: 1.5rem;
+      margin-bottom: 15px;
+    }
+
+    #content {
+      min-height: 200px;
+      max-height: 50vh;
+      padding: 15px;
+    }
+
+    #messageBtn {
+      bottom: 15px;
+    }
+  }
+</style>
+</head>
+<body class="page1">
+<div class="page-container">
+  <!-- PAGE 1: Start Screen -->
+  <div id="page1" class="page active">
+    <video autoplay muted loop>
+      <source src="video/video1.mp4" type="video/mp4">
+    </video>
+    <div id="overlayBox"></div>
+    <div class="note">
+      <b>🗨️ Lưu ý:</b> Hãy sử dụng máy tính, bật âm lượng để mở khóa các tính năng ẩn ^^
+    </div>
+    <div id="startBtn" class="glass-button">Khám phá</div>
+    <div id="preloader">
+      <div class="h"><b> </b> Dương đang đợi bạn đó !!</div>
+      <div class="countdown" id="countdown">10 </div>
+      <div>
+        <div class="loading-bar"></div>
+        <div class="loading-bar"></div>
+        <div class="loading-bar"></div>
+        <div class="loading-bar"></div>
+        <div class="loading-bar"></div>
+      </div>
+      <div id="loadStatus">Đang tải...</div>
+    </div>
+  </div>
+
+  <!-- PAGE 2: Letter Opening -->
+  <div id="page2" class="page">
+    <div id="overlay">
+      <h1>Nhấn mở bức thư để đọc nha</h1>
+      <button id="yesBtn">Đồng Ý 💌</button>
+      <button id="noBtn">Không nhaaa ^^</button>
+      <button id="laterBtn">Xem sau 🥺</button>
+    </div>
+    <canvas id="fireworks"></canvas>
+    <div class="container" id="mainContent" style="display:none;">
+      <img src="picture/lathu.png" alt="Lá thư" class="center-img" id="center-img">
+      <img src="picture/decor.png" alt="Trang trí" class="decor-img">
+      <img src="picture/muiten.png" alt="Mũi tên" class="arrow-img">
+    </div>
+    <img src="picture/anh.webp" id="logo" alt="Logo">
+  </div>
+
+  <!-- PAGE 3: Final Message -->
+  <div id="page3" class="page">
+    <video id="bgVideo" autoplay muted loop style="
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: -1;
+      display: none;">
+      <source src="video/video2.mp4" type="video/mp4">
+    </video>
+    <h1>Tạm biệt và hẹn gặp lại ❤️</h1>
+    <button id="playButton">🎵 Phát nhạc</button>
+    <div id="content"></div>
+    <img src="picture/anh.webp" id="logo" alt="Logo">
+    
+    <!-- Lời nhắn button -->
+    <button id="messageBtn">💌 Gửi lời nhắn</button>
+    
+    <!-- Modal nhập lời nhắn -->
+    <div id="messageModal">
+      <div class="box">
+        <h3>💌 Tajm bjk nka ! </h3>
+        <form id="messageForm" action="https://script.google.com/macros/s/AKfycbxbWL6OayGKVgW0qrfrOj91lwixMd-VwB6Jci460VU_OuI7MBgI1iKi4u3Fu5Fqm0HzHQ/exec" method="POST">
+          <input type="text" id="nameInput" name="name" placeholder="Nhập tên hoặc biệt danh của bạn..." style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-size: 16px; margin-bottom: 15px; box-sizing: border-box; transform: translateZ(0);" required>
+          <textarea id="messageInput" name="message" placeholder="Viết lời nhắn của bạn tại đây..." required></textarea>
+          <div class="modal-actions">
+            <button type="submit" class="btn" id="sendMessageBtn">Gửi lời nhắn</button>
+            <button type="button" class="btn secondary" id="cancelMessageBtn">Hủy</button>
+          </div>
+        </form>
+      </div>
+    </div>
+    
+    <!-- Modal cảm ơn -->
+    <div id="thankModal">
+      <div class="box">
+        <h3>🎉 Đã nhận được lời nhắn!</h3>
+        <p>Cảm ơn anh, chị cùng các bạn. Lời nhắn đã được gửi thành công.</p>
+        <div class="modal-actions">
+          <button class="btn" id="closeThankBtn">Đóng</button>
+        </div>
+      </div>
+    </div>
+    
+    <div id="passwordModal">
+      <div class="box">
+        <h3>🌸 Mật mã bí mật</h3>
+        <input type="password" id="passwordInput" placeholder="Nhập mật mã">
+        <br>
+        <button id="confirmBtn">Xác nhận</button>
+        <button id="cancelBtn">Hủy</button>
+        <p id="errorMessage">❌ Mật mã chưa chính xác</p>
+        <p id="secretMessage">💌 Nội dung bí mật:<br>"Xin cảm ơn, vì sự hiện diện của bạn đã làm mọi thứ dịu dàng hơn! "</p>
+      </div>
+    </div>
+    
+    <!-- Lock Modal -->
+    <div id="lockModal">
+      <div class="box">
+        <h3>🔐 Nhập mật mã</h3>
+        <div class="hint">Nơi chúng ta làm việc</div>
+        <input type="text" id="lockInput" placeholder="Nhập mật mã">
+        <br>
+        <button id="lockConfirmBtn">Xác nhận</button>
+        <button id="lockCancelBtn">Hủy</button>
+        <p id="lockErrorMessage">❌ Sai rồi, thử lại nhé!</p>
+      </div>
+    </div>
+    
+    <!-- Message Display Modal -->
+    <div id="messageDisplayModal">
+      <div class="box">
+        <h3 id="messageTitle"></h3>
+        <p id="messageContent"></p>
+        <div class="modal-actions">
+          <button class="btn" id="closeMessageDisplayBtn">Đóng</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Page transition overlay -->
+<div class="page-transition" id="pageTransition"></div>
+
+<!-- Audio elements -->
+<audio id="bgMusic" src="amthanh/nen3.m4a"></audio>
+<audio id="clickSound" src="amthanh/click.wav"></audio>
+<audio id="clickSound2" src="amthanh/click2.wav"></audio>
+<audio id="audioMain" loop>
+  <source src="amthanh/nhac.mp3" type="audio/mpeg" />
+</audio>
+<audio id="audioSecret" loop>
+  <source src="amthanh/cochutngotngao2.mp3" type="audio/mpeg" />
+</audio>
+<audio id="popSound" src="amthanh/pop.mp3"></audio>
+
+<script>
+// Global variables
+let currentPage = 1;
+const totalPages = 3;
+
+// Mobile detection and optimizations
+const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+
+// Performance optimizations for mobile
+if (isMobile) {
+  // Reduce animation complexity on mobile
+  document.documentElement.style.setProperty('--animation-duration', '0.3s');
+  // Disable some heavy effects on mobile
+  document.documentElement.style.setProperty('--backdrop-filter', 'none');
+}
+
+// Page transition function
+function transitionToPage(pageNumber) {
+  if (pageNumber === currentPage) return;
+  
+  console.log(`Transitioning from page ${currentPage} to page ${pageNumber}`);
+  
+  const pageTransition = document.getElementById('pageTransition');
+  const currentPageEl = document.getElementById(`page${currentPage}`);
+  const nextPageEl = document.getElementById(`page${pageNumber}`);
+  
+  // Show transition overlay
+  pageTransition.classList.add('active');
+  
+  setTimeout(() => {
+    // Hide current page
+    currentPageEl.classList.remove('active');
+    currentPageEl.classList.add(pageNumber > currentPage ? 'prev' : 'next');
+    
+    // Show next page
+    nextPageEl.classList.add('active');
+    nextPageEl.classList.remove('prev', 'next');
+    
+    // Update body class for page-specific styles
+    document.body.className = `page${pageNumber}`;
+    
+    currentPage = pageNumber;
+    
+    // Hide transition overlay
+    setTimeout(() => {
+      pageTransition.classList.remove('active');
+      pageTransition.classList.add('fade-out');
+      setTimeout(() => {
+        pageTransition.classList.remove('fade-out');
+      }, 800);
+    }, 100);
+  }, 400);
+}
+
+// PAGE 1 LOGIC
+document.addEventListener('DOMContentLoaded', function() {
+  const startBtn = document.getElementById("startBtn");
+  const preloader = document.getElementById("preloader");
+  const countdownElem = document.getElementById("countdown");
+  const loadStatus = document.getElementById("loadStatus");
+  const bgMusic = document.getElementById("bgMusic");
+  bgMusic.volume = 0.5;
+
+  startBtn.addEventListener("click", () => {
+    startBtn.style.display = "none";
+    preloader.style.display = "block";
+    bgMusic.play().catch(() => {});
+    
+    let timeLeft = 10;
+    const tick = setInterval(() => {
+      countdownElem.textContent = timeLeft;
+      loadStatus.textContent = `Đang tải... ${10 - timeLeft}/10`;
+      timeLeft--;
+      if (timeLeft < 0) {
+        clearInterval(tick);
+        preloader.style.transition = "opacity 1s ease";
+        preloader.style.opacity = 0;
+        setTimeout(() => {
+          transitionToPage(2);
+        }, 1000);
+      }
+    }, 1000);
+  });
+});
+
+// PAGE 2 LOGIC
+document.addEventListener('DOMContentLoaded', function() {
+  const overlay = document.getElementById("overlay");
+  const yesBtn = document.getElementById("yesBtn");
+  const noBtn = document.getElementById("noBtn");
+  const laterBtn = document.getElementById("laterBtn");
+  const mainContent = document.getElementById("mainContent");
+  const centerImg = document.getElementById("center-img");
+  const clickSound = document.getElementById("clickSound");
+  clickSound.volume = 0.7;
+  const clickSound2 = document.getElementById("clickSound2");
+
+  yesBtn.addEventListener("click", () => {
+    overlay.style.display = "none";
+    mainContent.style.display = "block";
+  });
+
+  noBtn.addEventListener("mouseover", () => {
+    const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
+    const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
+    noBtn.style.left = x + "px";
+    noBtn.style.top = y + "px";
+  });
+
+  laterBtn.addEventListener("mouseover", () => {
+    const x = Math.random() * (window.innerWidth - laterBtn.offsetWidth);
+    const y = Math.random() * (window.innerHeight - laterBtn.offsetHeight);
+    laterBtn.style.left = x + "px";
+    laterBtn.style.top = y + "px";
+  });
+
+  laterBtn.addEventListener("click", () => {
+    overlay.style.display = "none";
+    mainContent.style.display = "block";
+  });
+
+  centerImg.addEventListener("click", () => {
+    console.log("Center image clicked, transitioning to page 3");
+    clickSound2.currentTime = 0.7;
+    clickSound2.play();
+    document.body.classList.add("fade-out");
+    setTimeout(() => {
+      transitionToPage(3);
+    }, 1000);
+  });
+
+  // Only add fireworks click listener when on page 2
+  function addFireworksListener() {
+    const eventType = isTouchDevice ? 'touchstart' : 'click';
+    document.body.addEventListener(eventType, (e) => {
+      if (e.target !== centerImg && currentPage === 2) {
+        clickSound.currentTime = 0;
+        clickSound.play();
+        if (typeof fireworks !== 'undefined') {
+          const x = isTouchDevice ? e.touches[0].clientX : e.clientX;
+          const y = isTouchDevice ? e.touches[0].clientY : e.clientY;
+          fireworks.shoot(x, y);
+        }
+      }
+    });
+  }
+  
+  addFireworksListener();
+
+  // Fireworks system
+  const canvas = document.getElementById("fireworks");
+  const ctx = canvas.getContext("2d");
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+
+  class Firework {
+    constructor(x, y) {
+      this.x = x;
+      this.y = y;
+      this.particles = [];
+      for (let i = 0; i <111; i++) {
+        const angle = Math.random() * 2 * Math.PI;
+        const speed = Math.random() * 5 + 2;
+        this.particles.push({
+          x: x, y: y,
+          vx: Math.cos(angle) * speed,
+          vy: Math.sin(angle) * speed,
+          alpha: 1,
+          radius: Math.random() * 3 + 2
+        });
+      }
+    }
+    update() {
+      this.particles.forEach(p => {
+        p.x += p.vx;
+        p.y += p.vy;
+        p.vy += 0.05;
+        p.alpha -= 0.01;
+      });
+    }
+    draw(ctx) {
+      this.particles.forEach(p => {
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.radius, 0, 2 * Math.PI);
+        ctx.fillStyle = `rgba(255, ${Math.random()*255}, ${Math.random()*255}, ${p.alpha})`;
+        ctx.fill();
+      });
+    }
+  }
+
+  const fireworks = {
+    list: [],
+    shoot(x, y) { this.list.push(new Firework(x, y)); },
+    animate() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      this.list.forEach((fw, i) => {
+        fw.update();
+        fw.draw(ctx);
+        if (fw.particles.every(p => p.alpha <= 0)) this.list.splice(i, 1);
+      });
+      requestAnimationFrame(() => this.animate());
+    }
+  };
+  fireworks.animate();
+
+  window.addEventListener("resize", () => {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  });
+});
+
+// PAGE 3 LOGIC
+document.addEventListener('DOMContentLoaded', function() {
+  const icons = ['❤️','💖','💜','💕','💗','💞','💘'];
+  const flowers = ['🌸','🌺','🌼','🌻','🌷','💐'];
+  const popSound = document.getElementById("popSound");
+  popSound.volume = 0.2;
+  const audioMain = document.getElementById("audioMain");
+  const audioSecret = document.getElementById("audioSecret");
+  const bgMusic = document.getElementById("bgMusic");
+  let useFlowers = false;
+
+  // Hàm quản lý âm thanh - dừng tất cả nhạc nền trước khi phát nhạc mới
+  function stopAllBackgroundMusic() {
+    bgMusic.pause();
+    audioMain.pause();
+    audioSecret.pause();
+  }
+
+  // Hàm phát nhạc với fade in
+  function playMusicWithFade(audio, targetVolume = 0.5) {
+    stopAllBackgroundMusic();
+    audio.currentTime = 0;
+    audio.volume = 0;
+    audio.play().then(() => {
+      fadeIn(audio, targetVolume);
+    }).catch(() => {});
+  }
+  let specialHeartExists = false;
+  let lastSpecialTime = Date.now();
+  let lastSecretTime = Date.now();
+  let secretUnlocked = false;
+  let autoFireworksInterval = null;
+  let lockUnlocked = false;
+  let lastLockTime = Date.now();
+
+  const messages = [
+    {
+      title: "Anh Hưng",
+      content: "Người anh cả của Kiz luôn đôn đốc, nhiệt huyết và có nguồn năng lượng tích cực."
+    },
+    {
+      title: "Chị Lan", 
+      content: "Em chân thành cảm ơn người chị đã đỡ đầu em từ những ngày học việc và những sự quan tâm chỉ bảo dành cho em."
+    },
+    {
+      title: "Chị Giang",
+      content: "Chị ruột- mn hay bảo thế, em cảm ơn chị trong suốt thời gian qua đã là người trực tiếp cầm tay chỉ việc, chỉ bảo, giúp đỡ em trong quá trình làm việc."
+    },
+    {
+      title: "Chị Nga",
+      content: "Người chị mà em trân quý, chị luôn tận tâm chỉ dạy, chia sẻ những kinh nghiệm quý báu và sẵn sàng hỗ trợ khi em gặp khó khăn trong công việc"
+    },
+    {
+      title: "Anh Phan Anh",
+      content: "Người thẳng thắn, vui tính, luôn tận tâm chỉ bảo giúp đỡ mỗi khi em xuống hỗ trợ nhà hàng."
+    },
+    {
+      title: "Anh Trọng Anh",
+      content: "Em cảm ơn anh, người anh hiền lành, dễ tính và đôi khi hay du di cho những lỗi sai của em."
+    },
+    {
+      title: "Anh Thảo",
+      content: "Cảm ơn anh - một người anh luôn gần gũi và tạo cảm giác vui vẻ cho người làm việc cùng, luôn sẵn sàng hỗ trợ những vấn đề trong quá trình làm việc."
+    },
+    {
+      title: "Anh Chưởng",
+      content: "Thật là em ít khi có cơ hội làm việc cùng anh, chỉ khi hỗ trợ concept hay nhà hàng, nhưng mỗi khi làm việc cùng anh luôn tận tình, hướng dẫn chỉ bảo chi tiết trong toàn bộ quá trình và điều đó làm em cảm thấy biết ơn vô cùng."
+    },
+    {
+      title: " A Min",
+      content: "Người Anh hài hước tim đầy vết xước (e viết cho có vần thui), anh có hài hước rất riêng, nhưng phía sau đó là một tinh thần làm việc vô cùng nghiêm túc và trách nhiệm. Và điều đó làm em an tâm hơn mỗi lần anh training."
+    },
+    {
+      title: "Khủng Long",
+      content: "Trái TYM khủng long xin được xẻ ra để gửi tới tất cả các bạn, các anh, chị HDV mà em biết. Mọi người rất dễ thương, thân thiện và em thích điều đó heheh"
+    },
+    {
+      title: "?",
+      content: "Nếu còn ai mà em chưa kịp gửi lời tạm biệt thì có lẽ chúng ta vẫn còn duyên chăng haha. Vậy thì hẹn gặp lại ở tương lai nhoaa!!"
+    }
+  ];
+
+  let usedMessages = [];
+  let messageIndex = 0;
+
+  function createLockIcon() {
+    const lockIcon = document.createElement('div');
+    lockIcon.classList.add('lock-icon');
+    lockIcon.innerText = '🔐';
+    lockIcon.style.left = Math.random() * 100 + 'vw';
+    lockIcon.style.fontSize = (20 + Math.random() * 8) + 'px';
+    lockIcon.style.animationDuration = (6 + Math.random() * 4) + 's';
+    
+    lockIcon.addEventListener('click', () => {
+      openLockModal();
+      lockIcon.remove();
+    });
+    
+    document.body.appendChild(lockIcon);
+    setTimeout(() => {
+      if (document.body.contains(lockIcon)) {
+        lockIcon.remove();
+      }
+    }, 8000);
+  }
+
+  function createHeart(forceSpecial=false, forceSecret=false, forceLock=false) {
+    // Chỉ tạo icon đặc biệt khi đang ở page 3
+    if (currentPage !== 3) return;
+    
+    const heart = document.createElement('div');
+    heart.classList.add('heart');
+    let isSpecial = forceSpecial, isSecret = forceSecret, isLock = forceLock;
+
+    if(!isSpecial && !isSecret && !isLock){
+      if(Math.random()<0.03) isSpecial=true; // Giảm từ 5% xuống 3%
+      else if(Math.random()<0.02 && !secretUnlocked) isSecret=true; // Giảm từ 7% xuống 2%
+      else if(Math.random()<0.02 && !lockUnlocked) isLock=true; // Giảm từ 8% xuống 2%
+    }
+
+    if(isSpecial){
+      heart.innerText="💛 Click";
+      heart.dataset.special="true";
+      heart.style.color="#FFD700";
+      heart.style.cursor="pointer";
+      heart.style.pointerEvents="auto";
+      specialHeartExists=true;
+      lastSpecialTime=Date.now();
+      heart.addEventListener("click",()=>{
+        alert("🎉 Chúc bạn thật nhiều niềm vui và hạnh phúc! \n \n À nhớ khám phá icon khác nữa nha a/c hihi");
+        // Tạo pháo hoa khi click trái tim đặc biệt
+        const rect = heart.getBoundingClientRect();
+        createExplosion(rect.left + rect.width/2, rect.top + rect.height/2);
+        heart.remove();
+        specialHeartExists=false;
+        lastSpecialTime=Date.now();
+      });
+    } else if(isSecret){
+      heart.innerHTML='<i class="fa-solid fa-envelope"></i>';
+      heart.dataset.secret="true";
+      heart.style.cursor="pointer";
+      heart.style.pointerEvents="auto";
+      heart.style.fontSize="26px";
+      heart.style.color="#2563eb";
+      heart.addEventListener("click",()=>{
+        playMusicWithFade(audioSecret, 0.5);
+        // Tạo pháo hoa khi click trái tim bí mật
+        const rect = heart.getBoundingClientRect();
+        createExplosion(rect.left + rect.width/2, rect.top + rect.height/2);
+        openModal();
+        heart.remove();
+        lastSecretTime=Date.now();
+      });
+    } else if(isLock){
+      heart.innerText="🔐";
+      heart.dataset.lock="true";
+      heart.style.cursor="pointer";
+      heart.style.pointerEvents="auto";
+      heart.style.fontSize="24px";
+      heart.style.color="#ffd700";
+      heart.style.textShadow="0 0 6px rgba(255,215,0,0.8)";
+      heart.addEventListener("click",()=>{
+        // Tạo pháo hoa khi click lock icon
+        const rect = heart.getBoundingClientRect();
+        createExplosion(rect.left + rect.width/2, rect.top + rect.height/2);
+        openLockModal();
+        heart.remove();
+        lastLockTime=Date.now();
+      });
+    } else {
+      heart.innerText=useFlowers? flowers[Math.floor(Math.random()*flowers.length)] : icons[Math.floor(Math.random()*icons.length)];
+      heart.style.cursor="pointer";
+      heart.style.pointerEvents="auto";
+      heart.addEventListener("click",()=>{
+        const message = getNextMessage();
+        showMessageModal(message);
+        const rect = heart.getBoundingClientRect();
+        createExplosion(rect.left + rect.width/2, rect.top + rect.height/2);
+        heart.remove();
+      });
+    }
+
+    heart.style.left=Math.random()*100+'vw';
+    heart.style.fontSize=(18+Math.random()*12)+'px';
+    heart.style.animationDuration=(6+Math.random()*4)+'s';
+    document.body.appendChild(heart);
+    setTimeout(()=>{ if(document.body.contains(heart)) heart.remove(); if(heart.dataset.special) specialHeartExists=false; },8000);
+  }
+
+  let heartInterval = setInterval(()=>{
+    if (currentPage === 3) createHeart();
+  },1200);
+  
+  setInterval(()=>{
+    const now=Date.now();
+    if(currentPage === 3 && !specialHeartExists && now-lastSpecialTime>15000) createHeart(true,false);
+  },5000);
+  
+  setInterval(()=>{
+    const now=Date.now();
+    if(currentPage === 3 && now-lastSecretTime>30000 && !secretUnlocked) createHeart(false,true);
+  },8000);
+  
+  setInterval(()=>{
+    const now=Date.now();
+    if(currentPage === 3 && now-lastLockTime>35000 && !lockUnlocked) createHeart(false,false,true);
+  },10000);
+
+  const eventType = isTouchDevice ? 'touchstart' : 'click';
+  document.body.addEventListener(eventType,(e)=>{
+    if (currentPage !== 3) return;
+    
+    if(e.target.classList.contains("heart") || 
+       e.target.id === "confirmBtn" || 
+       e.target.id === "cancelBtn" ||
+       e.target.id === "passwordInput" ||
+       e.target.closest("#passwordModal")) return;
+    
+    const x = isTouchDevice ? e.touches[0].clientX : e.clientX;
+    const y = isTouchDevice ? e.touches[0].clientY : e.clientY;
+    
+    const heart=document.createElement("div");
+    heart.classList.add("heart");
+    heart.innerText=useFlowers? flowers[Math.floor(Math.random()*flowers.length)] : icons[Math.floor(Math.random()*icons.length)];
+    heart.style.left=x+"px";
+    heart.style.top=y+"px";
+    heart.style.fontSize=(25+Math.random()*20)+"px";
+    heart.style.animationDuration="0.8s";
+    heart.style.zIndex="9999";
+    document.body.appendChild(heart);
+    
+    setTimeout(()=>{ 
+      heart.remove(); 
+      createExplosion(x,y); 
+    }, 800);
+  });
+
+  function createExplosion(x,y){
+    popSound.currentTime=0;
+    popSound.play();
+    
+    for(let ring=0; ring<3; ring++) {
+      setTimeout(() => {
+        for(let i=0; i<12; i++){
+          const icon=useFlowers? flowers[Math.floor(Math.random()*flowers.length)] : icons[Math.floor(Math.random()*icons.length)];
+          const piece=document.createElement("div");
+          piece.classList.add("explosion");
+          piece.innerText=icon;
+          piece.style.left=x+"px";
+          piece.style.top=y+"px";
+          piece.style.fontSize=(14+Math.random()*8)+"px";
+          
+          const angle=(i/12)*(2*Math.PI);
+          const distance=(80+ring*40)+Math.random()*30;
+          piece.style.setProperty("--x",Math.cos(angle)*distance+"px");
+          piece.style.setProperty("--y",Math.sin(angle)*distance+"px");
+          
+          document.body.appendChild(piece);
+          setTimeout(()=>piece.remove(),1200);
+        }
+      }, ring*100);
+    }
+  }
+
+  function openModal(){ 
+    const modal = document.getElementById("passwordModal");
+    modal.style.display = "flex";
+    setTimeout(() => modal.classList.add("show"), 10);
+  }
+  
+  function closeModal(){
+    const modal = document.getElementById("passwordModal");
+    modal.classList.remove("show");
+    setTimeout(() => {
+      modal.style.display = "none";
+      document.getElementById("errorMessage").style.display="none";
+      document.getElementById("secretMessage").style.display="none";
+      document.getElementById("passwordInput").value="";
+    }, 300);
+  }
+
+  function openLockModal(){ 
+    const modal = document.getElementById("lockModal");
+    modal.style.display = "flex";
+    setTimeout(() => modal.classList.add("show"), 10);
+  }
+  
+  function closeLockModal(){
+    const modal = document.getElementById("lockModal");
+    modal.classList.remove("show");
+    setTimeout(() => {
+      modal.style.display = "none";
+      document.getElementById("lockErrorMessage").style.display="none";
+      document.getElementById("lockInput").value="";
+    }, 300);
+  }
+
+  function getNextMessage() {
+    if (usedMessages.length === messages.length) {
+      usedMessages = [];
+    }
+    
+    let availableMessages = messages.filter((_, index) => !usedMessages.includes(index));
+    let randomIndex = Math.floor(Math.random() * availableMessages.length);
+    let selectedMessage = availableMessages[randomIndex];
+    let originalIndex = messages.indexOf(selectedMessage);
+    
+    usedMessages.push(originalIndex);
+    return selectedMessage;
+  }
+
+  function showMessageModal(message) {
+    const modal = document.getElementById('messageDisplayModal');
+    const titleEl = document.getElementById('messageTitle');
+    const contentEl = document.getElementById('messageContent');
+    
+    titleEl.textContent = message.title;
+    contentEl.textContent = message.content;
+    
+    modal.style.display = 'flex';
+    setTimeout(() => modal.classList.add('show'), 10);
+  }
+
+  function closeMessageDisplayModal() {
+    const modal = document.getElementById('messageDisplayModal');
+    modal.classList.remove('show');
+    setTimeout(() => {
+      modal.style.display = 'none';
+    }, 300);
+  }
+
+  function createBigHeartExplosion() {
+    const bigHeart = document.createElement('div');
+    bigHeart.classList.add('big-heart');
+    bigHeart.innerText = '❤️';
+    document.body.appendChild(bigHeart);
+
+    setTimeout(() => {
+      const centerX = window.innerWidth / 2;
+      const centerY = window.innerHeight / 2;
+      
+      for(let i = 0; i < 50; i++) {
+        setTimeout(() => {
+          const smallHeart = document.createElement('div');
+          smallHeart.classList.add('heart');
+          smallHeart.innerText = icons[Math.floor(Math.random()*icons.length)];
+          smallHeart.style.position = 'fixed';
+          smallHeart.style.left = centerX + 'px';
+          smallHeart.style.top = centerY + 'px';
+          smallHeart.style.fontSize = (15 + Math.random() * 10) + 'px';
+          smallHeart.style.zIndex = '10000';
+          smallHeart.style.pointerEvents = 'none';
+          smallHeart.style.transform = 'translate(-50%, -50%)';
+          
+          const angle = (i / 50) * 2 * Math.PI;
+          const distance = 150 + Math.random() * 100;
+          const endX = centerX + Math.cos(angle) * distance;
+          const endY = centerY + Math.sin(angle) * distance;
+          
+          smallHeart.style.transition = 'left 2s ease-out, top 2s ease-out, opacity 2s ease-out';
+          
+          document.body.appendChild(smallHeart);
+          
+          setTimeout(() => {
+            smallHeart.style.left = endX + 'px';
+            smallHeart.style.top = endY + 'px';
+            smallHeart.style.opacity = '0';
+          }, 10);
+          
+          setTimeout(() => {
+            if (document.body.contains(smallHeart)) {
+              smallHeart.remove();
+            }
+          }, 2000);
+        }, i * 30);
+      }
+      
+      setTimeout(() => {
+        if (document.body.contains(bigHeart)) {
+          bigHeart.remove();
+        }
+      }, 1000);
+    }, 500);
+  }
+  function checkLockPassword(){
+    const pass=document.getElementById("lockInput").value.toLowerCase();
+    if (pass.includes("kiz")) {
+      document.getElementById("lockErrorMessage").style.display="none";
+      closeLockModal();
+      lockUnlocked = true;
+      createBigHeartExplosion();
+    } else {
+      document.getElementById("lockErrorMessage").style.display="block";
+    }
+  }
+
+  function checkPassword(){
+    const pass=document.getElementById("passwordInput").value.toLowerCase();
+    if (["kizciti2025","duong","love","parttime","secret"].includes(pass) || pass.includes("n")) {
+      document.getElementById("secretMessage").style.display="block";
+      document.getElementById("errorMessage").style.display="none";
+      audioSecret.currentTime=45;
+      stopAllBackgroundMusic();
+      audioSecret.volume = 0;
+      audioSecret.play().then(() => {
+        fadeIn(audioSecret, 0.5);
+      }).catch(() => {});
+      useFlowers=true;
+      secretUnlocked = true;
+      
+      clearInterval(heartInterval);
+      heartInterval = setInterval(()=>createHeart(), 600);
+      
+      if (autoFireworksInterval) clearInterval(autoFireworksInterval);
+      autoFireworksInterval = setInterval(() => {
+        for (let i = 0; i < 3; i++) {
+          setTimeout(() => {
+            createExplosion(
+              Math.random() * window.innerWidth, 
+              Math.random() * window.innerHeight
+            );
+          }, i * 200);
+        }
+      }, 5000);
+      
+      document.querySelectorAll(".heart").forEach(icon=>{
+          icon.innerText=flowers[Math.floor(Math.random()*flowers.length)];
+          icon.style.color="";
+          icon.style.fontSize="22px";
+      });
+
+      document.body.style.background = 'none'; 
+      const video = document.getElementById("bgVideo");
+      video.style.display = "block";
+      video.play();
+      
+      for(let i = 0; i < 10; i++) {
+        setTimeout(() => {
+          createExplosion(
+            Math.random() * window.innerWidth, 
+            Math.random() * window.innerHeight
+          );
+        }, i * 200);
+      }
+      
+      setTimeout(() => {
+        for(let i = 0; i < 3; i++) {
+          setTimeout(() => {
+            createExplosion(window.innerWidth/2, window.innerHeight/2);
+          }, i * 300);
+        }
+      }, 1000);
+    } else {
+      document.getElementById("errorMessage").style.display="block";
+      document.getElementById("secretMessage").style.display="none";
+      const page3 = document.getElementById('page3');
+      page3.style.background = 'url("picture/nen3.png") center/cover no-repeat';
+      page3.style.backgroundSize = '100% 100%';
+      playMusicWithFade(audioMain, 0.5);
+    }
+  }
+
+  // Typewriter effect
+  const fullText=`Kính gửi toàn thể anh chị điều hành cùng các anh chị HDV,
+
+Em là Nguyễn Tùng Dương, HDV Block 3. Hôm nay là ngày cuối cùng em là 1 nhân viên part-time tại KizCiti . Biết đến và được làm việc tại KizCiti là một may mắn lớn đối với em. Đây cũng là một trong những công việc đầu tiên em đảm nhận khi vừa đặt chân đến Hà Nội.
+Đúng là thật khó để nói lời tạm biệt sau quãng thời gian gắn bó và đồng hành cùng mọi người, quãng thời gian không hẳn là dài nhưng đã đọng lại trong em nhiều điều đáng quý. Em muốn gửi lời cảm ơn sâu sắc đến từng anh chị điều hành và các bạn HDV – những người đã luôn hỗ trợ, đồng hành và giúp đỡ em trong suốt thời gian qua, không chỉ về công việc mà còn là 1 một chỗ dựa tinh thần nhỏ, nơi cho em kiến thức và những trải nghiệm quý giá.
+Quãng thời gian làm việc tại đây chắc chắn là một trong những kỷ niệm đáng nhớ, tô điểm cho thanh xuân của em thêm rực rỡ. Em rất trân trọng môi trường làm việc thân thiện, tinh thần đoàn kết và sự sẻ chia mà mọi người đã tạo nên. Nếu còn duyên, hy vọng một ngày không xa em sẽ gặp lại mọi người với tư cách HDV part-time ngày ạ hihi.
+
+Giờ đây, với chặng đường kế tiếp , em sẽ mang theo tất cả những ký ức đẹp, tình cảm chân thành và những bài học quý báu mà KizCiti đã trao tặng. Mong rằng, dù thời gian có qua đi, em và mọi người vẫn giữ được mối liên hệ tốt đẹp và đừng quên em mãi là em út của mọi người hihi .
+Em xin chúc KizCiti ngày càng phát triển đón thật nhiều đoàn và đón thật rực rỡ, anh chị điều hành cùng các bạn HDV nhiều sức khỏe, niềm vui và thành công trong công việc cũng như cuộc sống. 
+
+Một lần nữa, em xin gửi lời cảm ơn và chào tạm biệt chân thành nhất! 
+- P056 - `; 
+
+  const contentEl=document.getElementById("content");
+  let index=0;
+  function typeWriter(){
+    if(index<fullText.length){
+      let char=fullText[index];
+      contentEl.innerHTML+=(char=='\n')?"<br>":char;
+      index++;
+      let delay=30;
+      if(".,!?".includes(char)) delay=400;
+      if(char=='\n') delay=600;
+      if(char==':') delay=200;
+      if(char==';') delay=300;
+      setTimeout(typeWriter,delay);
+    }
+  }
+
+  function fadeIn(audio, targetVolume = 0.5){
+    let volume=0;
+    const interval=setInterval(()=>{
+      if(volume<targetVolume){ 
+        volume+=0.01; 
+        audio.volume=volume; 
+      } else {
+        clearInterval(interval);
+      }
+    },150);
+  }
+
+  document.getElementById('playButton').addEventListener('click',()=>{
+    const btn=document.getElementById("playButton");
+    // Thay đổi background của page3 từ nengiayne.jpg sang nen3.png
+    const page3 = document.getElementById('page3');
+    page3.style.background = 'url("picture/nen3.png") center/cover no-repeat';
+    page3.style.backgroundSize = '100% 100%';
+    
+    document.body.classList.add('bg-image');
+    contentEl.classList.add('bg-white');
+    playMusicWithFade(audioMain, 0.5);
+    btn.style.opacity='0';
+    setTimeout(()=>btn.style.display='none',500);
+    typeWriter();
+  });
+
+  document.getElementById('confirmBtn').addEventListener('click', checkPassword);
+  document.getElementById('cancelBtn').addEventListener('click', closeModal);
+  document.getElementById('lockConfirmBtn').addEventListener('click', checkLockPassword);
+  document.getElementById('lockCancelBtn').addEventListener('click', closeLockModal);
+  document.getElementById('closeMessageDisplayBtn').addEventListener('click', closeMessageDisplayModal);
+
+  function revealMessageButtonAfterTyping() {
+    const interval = setInterval(() => {
+      if (index >= fullText.length) {
+        clearInterval(interval);
+        setTimeout(() => {
+          const btnMsg = document.getElementById('messageBtn');
+          btnMsg.style.display = 'block';
+        }, 3000);
+      }
+    }, 300);
+  }
+  revealMessageButtonAfterTyping();
+
+  const messageBtn = document.getElementById('messageBtn');
+  const messageModal = document.getElementById('messageModal');
+  const thankModal = document.getElementById('thankModal');
+  const messageInput = document.getElementById('messageInput');
+  const sendMessageBtn = document.getElementById('sendMessageBtn');
+  const cancelMessageBtn = document.getElementById('cancelMessageBtn');
+  const closeThankBtn = document.getElementById('closeThankBtn');
+
+  function openMessageModal(){ messageModal.style.display='flex'; setTimeout(()=>messageModal.classList.add('show'),10); }
+  function closeMessageModal(){ messageModal.classList.remove('show'); setTimeout(()=>{ messageModal.style.display='none'; document.getElementById('nameInput').value=''; messageInput.value=''; }, 250); }
+  function openThankModal(){ thankModal.style.display='flex'; setTimeout(()=>thankModal.classList.add('show'),10); }
+  function closeThankModal(){ thankModal.classList.remove('show'); setTimeout(()=>{ thankModal.style.display='none'; }, 250); }
+
+  messageBtn.addEventListener('click', openMessageModal);
+  cancelMessageBtn.addEventListener('click', closeMessageModal);
+  closeThankBtn.addEventListener('click', closeThankModal);
+
+  document.getElementById('messageForm').addEventListener('submit', function(e) {
+    const nameInput = document.getElementById('nameInput');
+    const messageInput = document.getElementById('messageInput');
+    const name = (nameInput.value || '').trim();
+    const msg = (messageInput.value || '').trim();
+
+    if (!name || !msg) {
+      e.preventDefault();
+      if (!name) {
+        nameInput.focus();
+      } else {
+        messageInput.focus();
+      }
+      return;
+    }
+
+    sendMessageBtn.disabled = true;
+    sendMessageBtn.textContent = 'Đang gửi...';
+  });
+});
+</script>
+</body>
+</html>
