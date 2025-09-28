@@ -458,16 +458,16 @@
   }
 
   #content::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.3);
+    background: rgba(31, 3, 3, 0.3);
     border-radius: 4px;
   }
 
   #content::-webkit-scrollbar-thumb:hover {
-    background: rgba(255, 255, 255, 0.5);
+    background: rgba(20, 2, 2, 0.5);
   }
 
   #content.bg-white {
-    background: rgba(241, 242, 243, 0.85);
+    background: rgba(241, 244, 247, 0.85);
     color: #0a0101;
     backdrop-filter: blur(8px);
   }
@@ -477,7 +477,7 @@
     border: none;
     border-radius: 50px;
     background: linear-gradient(135deg, #2563eb, #3b82f6);
-    color: white;
+    color: rgb(46, 77, 134);
     cursor: pointer;
     transition: all 0.3s ease;
     box-shadow: 0 0 15px rgba(59, 130, 246, 0.6);
@@ -1516,6 +1516,7 @@
         <button id="confirmBtn">Xác nhận</button>
         <button id="cancelBtn">Hủy</button>
         <p id="errorMessage">❌ Mật mã chưa chính xác</p>
+        <div class="hint">Không có gợi ý</div>
         <p id="secretMessage">💌 Nội dung bí mật:<br>"Xin cảm ơn, vì sự hiện diện của bạn đã làm mọi thứ dịu dàng hơn! "</p>
       </div>
     </div>
@@ -1524,7 +1525,7 @@
     <div id="lockModal">
       <div class="box">
         <h3>🔐 Nhập mật mã</h3>
-        <div class="hint">Nơi chúng ta làm việc</div>
+        <div class="hint"> Gợi ý: Nơi chúng ta làm việc</div>
         <input type="text" id="lockInput" placeholder="Nhập mật mã">
         <br>
         <button id="lockConfirmBtn">Xác nhận</button>
