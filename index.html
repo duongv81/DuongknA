@@ -1577,8 +1577,7 @@ document.addEventListener('DOMContentLoaded', function() {
   const loadingText = document.getElementById('loadingText');
   const loadingPercentage = document.getElementById('loadingPercentage');
   const floatingHearts = document.getElementById('floatingHearts');
-  
-  // Tạo trái tim bay
+
   function createFloatingHeart() {
     const heart = document.createElement('div');
     heart.className = 'floating-heart';
@@ -1595,10 +1594,8 @@ document.addEventListener('DOMContentLoaded', function() {
     }, 8000);
   }
   
-  // Tạo trái tim bay liên tục
+
   setInterval(createFloatingHeart, 800);
-  
-  // Kiểm tra video đã tải xong
   function checkVideoLoaded() {
     return new Promise((resolve) => {
       const video = document.createElement('video');
@@ -1637,7 +1634,7 @@ document.addEventListener('DOMContentLoaded', function() {
       });
       
       video.addEventListener('error', () => {
-        // Nếu video lỗi, vẫn tiếp tục sau 3 giây
+  
         setTimeout(() => {
           progress = 100;
           progressBar.style.width = '100%';
@@ -1647,7 +1644,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 3000);
       });
       
-      // Timeout sau 10 giây
       setTimeout(() => {
         progress = 100;
         progressBar.style.width = '100%';
@@ -1658,7 +1654,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
   
-  // Bắt đầu quá trình loading
+
   checkVideoLoaded().then(() => {
     setTimeout(() => {
       transitionToPage(1);
@@ -1666,7 +1662,7 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 });
 
-// PAGE 1 LOGIC
+
 document.addEventListener('DOMContentLoaded', function() {
   const startBtn = document.getElementById("startBtn");
   const preloader = document.getElementById("preloader");
@@ -1697,7 +1693,7 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 });
 
-// PAGE 2 LOGIC
+
 document.addEventListener('DOMContentLoaded', function() {
   const overlay = document.getElementById("overlay");
   const yesBtn = document.getElementById("yesBtn");
@@ -1743,7 +1739,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }, 1000);
   });
 
-  // Only add fireworks click listener when on page 2
+
   function addFireworksListener() {
     const eventType = isTouchDevice ? 'touchstart' : 'click';
     document.body.addEventListener(eventType, (e) => {
@@ -1761,7 +1757,7 @@ document.addEventListener('DOMContentLoaded', function() {
   
   addFireworksListener();
 
-  // Fireworks system
+
   const canvas = document.getElementById("fireworks");
   const ctx = canvas.getContext("2d");
   canvas.width = window.innerWidth;
@@ -1823,7 +1819,6 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 });
 
-// PAGE 3 LOGIC
 document.addEventListener('DOMContentLoaded', function() {
   const icons = ['❤️','💖','💜','💕','💗','💞','💘'];
   const flowers = ['🌸','🌺','🌼','🌻','🌷','💐'];
@@ -1833,15 +1828,12 @@ document.addEventListener('DOMContentLoaded', function() {
   const audioSecret = document.getElementById("audioSecret");
   const bgMusic = document.getElementById("bgMusic");
   let useFlowers = false;
-
-  // Hàm quản lý âm thanh - dừng tất cả nhạc nền trước khi phát nhạc mới
   function stopAllBackgroundMusic() {
     bgMusic.pause();
     audioMain.pause();
     audioSecret.pause();
   }
 
-  // Hàm phát nhạc với fade in
   function playMusicWithFade(audio, targetVolume = 0.5) {
     stopAllBackgroundMusic();
     audio.currentTime = 0;
@@ -1930,7 +1922,6 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   function createHeart(forceSpecial=false, forceSecret=false, forceLock=false) {
-    // Chỉ tạo icon đặc biệt khi đang ở page 3
     if (currentPage !== 3) return;
     
     const heart = document.createElement('div');
@@ -1938,9 +1929,9 @@ document.addEventListener('DOMContentLoaded', function() {
     let isSpecial = forceSpecial, isSecret = forceSecret, isLock = forceLock;
 
     if(!isSpecial && !isSecret && !isLock){
-      if(Math.random()<0.03) isSpecial=true; // Giảm từ 5% xuống 3%
-      else if(Math.random()<0.02 && !secretUnlocked) isSecret=true; // Giảm từ 7% xuống 2%
-      else if(Math.random()<0.02 && !lockUnlocked) isLock=true; // Giảm từ 8% xuống 2%
+      if(Math.random()<0.03) isSpecial=true; 
+      else if(Math.random()<0.02 && !secretUnlocked) isSecret=true; 
+      else if(Math.random()<0.02 && !lockUnlocked) isLock=true; 
     }
 
     if(isSpecial){
@@ -1953,7 +1944,6 @@ document.addEventListener('DOMContentLoaded', function() {
       lastSpecialTime=Date.now();
       heart.addEventListener("click",()=>{
         alert("🎉 Chúc bạn thật nhiều niềm vui và hạnh phúc! \n \n À nhớ khám phá icon khác nữa nha a/c hihi");
-        // Tạo pháo hoa khi click trái tim đặc biệt
         const rect = heart.getBoundingClientRect();
         createExplosion(rect.left + rect.width/2, rect.top + rect.height/2);
         heart.remove();
@@ -1969,7 +1959,6 @@ document.addEventListener('DOMContentLoaded', function() {
       heart.style.color="#2563eb";
       heart.addEventListener("click",()=>{
         playMusicWithFade(audioSecret, 0.5);
-        // Tạo pháo hoa khi click trái tim bí mật
         const rect = heart.getBoundingClientRect();
         createExplosion(rect.left + rect.width/2, rect.top + rect.height/2);
         openModal();
@@ -1985,7 +1974,6 @@ document.addEventListener('DOMContentLoaded', function() {
       heart.style.color="#ffd700";
       heart.style.textShadow="0 0 6px rgba(255,215,0,0.8)";
       heart.addEventListener("click",()=>{
-        // Tạo pháo hoa khi click lock icon
         const rect = heart.getBoundingClientRect();
         createExplosion(rect.left + rect.width/2, rect.top + rect.height/2);
         openLockModal();
@@ -2284,8 +2272,6 @@ document.addEventListener('DOMContentLoaded', function() {
       playMusicWithFade(audioMain, 0.5);
     }
   }
-
-  // Typewriter effect
   const fullText=`Kính gửi toàn thể anh chị điều hành cùng các anh chị HDV,
 
 Em là Nguyễn Tùng Dương, HDV Block 3. Hôm nay là ngày cuối cùng em là 1 nhân viên part-time tại KizCiti . Biết đến và được làm việc tại KizCiti là một may mắn lớn đối với em. Đây cũng là một trong những công việc đầu tiên em đảm nhận khi vừa đặt chân đến Hà Nội.
@@ -2328,7 +2314,6 @@ Một lần nữa, em xin gửi lời cảm ơn và chào tạm biệt chân th�
 
   document.getElementById('playButton').addEventListener('click',()=>{
     const btn=document.getElementById("playButton");
-    // Thay đổi background của page3 từ nengiayne.jpg sang nen3.png
     const page3 = document.getElementById('page3');
     page3.style.background = 'url("picture/nen3.png") center/cover no-repeat';
     page3.style.backgroundSize = '100% 100%';
