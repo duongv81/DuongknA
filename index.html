@@ -2305,11 +2305,11 @@ Một lần nữa, em xin gửi lời cảm ơn và chào tạm biệt chân th�
       let char=fullText[index];
       contentEl.innerHTML+=(char=='\n')?"<br>":char;
       index++;
-      let delay=30;
-      if(".,!?".includes(char)) delay=400;
-      if(char=='\n') delay=600;
-      if(char==':') delay=200;
-      if(char==';') delay=300;
+      let delay=5;
+      if(".,!?".includes(char)) delay=200;
+      if(char=='\n') delay=300;
+      if(char==':') delay=100;
+      if(char==';') delay=150;
       setTimeout(typeWriter,delay);
     }
   }
